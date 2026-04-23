@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Productive Minutes Tracker</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(145deg, #1a0e00 0%, #231200 50%, #2e1800 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      padding: 32px 16px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,128,0,0.2);
+      border-radius: 24px;
+      padding: 48px 52px;
+      width: 480px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 60px rgba(255,128,0,0.06);
+      text-align: center;
+    }
+
+    .app-title {
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 16px;
+    }
+
+    /* ── Storage status ── */
+    .storage-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      padding: 6px 14px;
+      border-radius: 50px;
+      border: 1px solid transparent;
+      transition: all 0.3s;
+      color: rgba(255,255,255,0.25);
+      border-color: rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.03);
+    }
+    .storage-bar.saved {
+      color: rgba(100,210,160,0.7);
+      border-color: rgba(100,210,160,0.2);
+      background: rgba(100,210,160,0.05);
+    }
+    .storage-bar.restored {
+      color: rgba(255,165,0,0.9);
+      border-color: rgba(255,165,0,0.3);
+      background: rgba(255,165,0,0.07);
+    }
+    .storage-bar.error {
+      color: rgba(255,90,90,0.7);
+      border-color: rgba(255,90,90,0.2);
+      background: rgba(255,90,90,0.05);
+    }
+    .storage-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* ── Start time ── */
+    .start-time-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      background: rgba(255,128,0,0.06);
+      border: 1px solid rgba(255,128,0,0.18);
+      border-radius: 16px;
+      padding: 14px 18px;
+    }
+    .start-time-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .time-input {
+      background: rgba(255,128,0,0.12);
+      border: 1px solid rgba(255,128,0,0.4);
+      border-radius: 10px;
+      color: #FF8000;
+      font-size: 20px;
+      font-weight: 700;
+      padding: 8px 12px;
+      outline: none;
+      width: 140px;
+      min-width: 140px;
+      text-align: center;
+      letter-spacing: 1px;
+      font-variant-numeric: tabular-nums;
+      transition: border 0.2s, background 0.2s;
+    }
+    .time-input:focus { border-color: rgba(255,128,0,0.75); background: rgba(255,128,0,0.18); }
+    .time-input::-webkit-calendar-picker-indicator {
+      filter: invert(55%) sepia(90%) saturate(600%) hue-rotate(5deg);
+      cursor: pointer;
+    }
+    .now-btn {
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,128,0,0.25);
+      background: rgba(255,128,0,0.1);
+      color: rgba(255,200,100,0.7);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.18s;
+    }
+    .now-btn:hover { background: rgba(255,128,0,0.22); color: #FF8000; border-color: rgba(255,128,0,0.45); }
+
+    /* ── Counter ── */
+    .counter-label {
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #FF8000;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .counter {
+      font-size: 88px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      color: #ffffff;
+      text-shadow: 0 0 50px rgba(255,128,0,0.5);
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+    .counter.negative { color: #ff4444; text-shadow: 0 0 40px rgba(255,68,68,0.5); }
+    .counter-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 8px;
+      margin-bottom: 36px;
+      letter-spacing: 1px;
+      min-height: 18px;
+    }
+
+    .divider { height: 1px; background: rgba(255,128,0,0.15); margin: 0 -8px 24px; }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      margin-bottom: 16px;
+    }
+
+    /* ── Buttons ── */
+    .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .btn { padding: 14px 10px; border: none; border-radius: 14px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.18s ease; }
+    .btn:active { transform: scale(0.96); }
+
+    .btn-break-15 { background: rgba(255,128,0,0.15); color: #FF8000; border: 1px solid rgba(255,128,0,0.28); }
+    .btn-break-15:hover { background: rgba(255,128,0,0.28); }
+    .btn-break-10 { background: rgba(255,160,40,0.12); color: #FFA028; border: 1px solid rgba(255,160,40,0.25); }
+    .btn-break-10:hover { background: rgba(255,160,40,0.24); }
+    .btn-lunch { background: rgba(255,200,80,0.12); color: #FFC850; border: 1px solid rgba(255,200,80,0.22); }
+    .btn-lunch:hover { background: rgba(255,200,80,0.24); }
+
+    .meeting-row { display: flex; gap: 10px; }
+    .meeting-input {
+      flex: 1; padding: 14px 16px; border-radius: 14px;
+      border: 1px solid rgba(255,100,0,0.25); background: rgba(255,100,0,0.08);
+      color: #FF6400; font-size: 14px; font-weight: 600; outline: none; text-align: center; transition: border 0.18s;
+    }
+    .meeting-input::placeholder { color: rgba(255,100,0,0.35); font-weight: 400; }
+    .meeting-input:focus { border-color: rgba(255,100,0,0.5); background: rgba(255,100,0,0.12); }
+    .btn-meeting {
+      background: rgba(255,100,0,0.15); color: #FF6400; border: 1px solid rgba(255,100,0,0.25);
+      padding: 14px 20px; border-radius: 14px; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.18s ease; white-space: nowrap;
+    }
+    .btn-meeting:hover { background: rgba(255,100,0,0.28); }
+    .btn-meeting:active { transform: scale(0.96); }
+
+    /* ── Event log ── */
+    .log-section { margin-top: 24px; }
+    .log-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .log-header .section-label { margin-bottom: 0; }
+    .clear-all-btn {
+      font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+      color: rgba(255,80,80,0.45); background: none; border: none;
+      cursor: pointer; padding: 4px 8px; border-radius: 6px; transition: all 0.18s; font-weight: 600;
+    }
+    .clear-all-btn:hover { color: #ff5555; background: rgba(255,80,80,0.08); }
+
+    .log-list { display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto; padding-right: 2px; }
+    .log-list::-webkit-scrollbar { width: 4px; }
+    .log-list::-webkit-scrollbar-track { background: transparent; }
+    .log-list::-webkit-scrollbar-thumb { background: rgba(255,128,0,0.25); border-radius: 4px; }
+
+    .log-item {
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,128,0,0.05); border: 1px solid rgba(255,128,0,0.12);
+      border-radius: 12px; padding: 10px 14px; animation: slide-in 0.2s ease; transition: background 0.15s;
+    }
+    .log-item:hover { background: rgba(255,128,0,0.1); }
+    @keyframes slide-in { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+
+    .log-item-left { display: flex; align-items: center; gap: 10px; text-align: left; }
+    .log-item-icon { font-size: 16px; line-height: 1; }
+    .log-item-label { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.8); }
+    .log-item-mins { font-size: 11px; color: rgba(255,128,0,0.5); margin-top: 2px; }
+
+    .log-delete-btn {
+      background: rgba(255,80,80,0.1); border: 1px solid rgba(255,80,80,0.2);
+      color: rgba(255,80,80,0.55); border-radius: 8px; width: 28px; height: 28px;
+      font-size: 14px; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0; transition: all 0.18s;
+    }
+    .log-delete-btn:hover { background: rgba(255,80,80,0.2); border-color: rgba(255,80,80,0.45); color: #ff5555; transform: scale(1.1); }
+
+    .log-empty { font-size: 12px; color: rgba(255,255,255,0.18); padding: 16px 0; letter-spacing: 0.5px; }
+
+    /* ── Reset ── */
+    .reset-row { margin-top: 20px; display: flex; justify-content: center; }
+    .reset-btn {
+      display: flex; align-items: center; gap: 7px; padding: 11px 28px; border-radius: 50px;
+      border: 1px solid rgba(255,80,80,0.3); background: rgba(255,80,80,0.08);
+      color: rgba(255,110,110,0.7); font-size: 12px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+    }
+    .reset-btn:hover { background: rgba(255,80,80,0.18); border-color: rgba(255,80,80,0.55); color: #ff6060; }
+    .reset-btn:active { transform: scale(0.97); }
+
+    /* ── Stats ── */
+    .stats-row { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,128,0,0.12); }
+    .stat-item { text-align: center; flex: 1; }
+    .stat-value { font-size: 20px; font-weight: 700; color: rgba(255,255,255,0.85); font-variant-numeric: tabular-nums; }
+    .stat-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-top: 4px; }
+    .stat-divider { width: 1px; background: rgba(255,128,0,0.12); }
+
+    /* ── Toast ── */
+    .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; z-index: 999; }
+    .toast {
+      background: rgba(40,20,0,0.9); border: 1px solid rgba(255,128,0,0.35);
+      backdrop-filter: blur(10px); color: #FFB060; padding: 10px 22px;
+      border-radius: 50px; font-size: 13px; font-weight: 500;
+      animation: toast-in 0.25s ease, toast-out 0.4s ease 1.8s forwards; white-space: nowrap;
+    }
+    @keyframes toast-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes toast-out { from { opacity:1; } to { opacity:0; } }
+
+    /* ── Confirm ── */
+    .confirm-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
+    .confirm-overlay.active { display: flex; }
+    .confirm-box { background: #1e1000; border: 1px solid rgba(255,128,0,0.3); border-radius: 20px; padding: 36px 40px; text-align: center; box-shadow: 0 16px 48px rgba(0,0,0,0.6); max-width: 320px; width: 90%; animation: pop-in 0.2s ease; }
+    @keyframes pop-in { from { opacity:0; transform:scale(0.92); } to { opacity:1; transform:scale(1); } }
+    .confirm-icon { font-size: 36px; margin-bottom: 12px; }
+    .confirm-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .confirm-msg { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.5; margin-bottom: 24px; }
+    .confirm-btns { display: flex; gap: 10px; }
+    .confirm-cancel { flex:1; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.05); color:rgba(255,255,255,0.5); font-size:13px; font-weight:600; cursor:pointer; transition:all 0.18s; }
+    .confirm-cancel:hover { background:rgba(255,255,255,0.1); color:#fff; }
+    .confirm-ok { flex:1; padding:12px; border-radius:12px; border:1px solid rgba(255,80,80,0.4); background:rgba(255,80,80,0.15); color:#ff7070; font-size:13px; font-weight:600; cursor:pointer; transition:all 0.18s; }
+    .confirm-ok:hover { background:rgba(255,80,80,0.28); color:#ff5555; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="app-title">Productivity Tracker</div>
+
+  <div class="storage-bar" id="storageBar">
+    <div class="storage-dot"></div>
+    <span id="storageMsg">Initialising…</span>
+  </div>
+
+  <div class="start-time-section">
+    <span class="start-time-label">Started at</span>
+    <input class="time-input" type="time" id="startTime" value="08:00" />
+    <button class="now-btn" onclick="setToNow()">Use Now</button>
+  </div>
+
+  <div class="counter-label">Expected Productive Minutes</div>
+  <div class="counter" id="counter">--:--</div>
+  <div class="counter-sub" id="counter-sub">Set your start time above</div>
+
+  <div class="divider"></div>
+  <div class="section-label">Deduct Time</div>
+
+  <div class="btn-grid">
+    <button class="btn btn-break-15" onclick="deduct(15,'15-Min Break','☕')">☕ 15-Min Break</button>
+    <button class="btn btn-break-10" onclick="deduct(10,'10-Min Break','🚶')">🚶 10-Min Break</button>
+    <button class="btn btn-lunch"    onclick="deduct(30,'30-Min Lunch','🥗')">🥗 30-Min Lunch</button>
+  </div>
+
+  <div class="meeting-row">
+    <input class="meeting-input" id="meetingMins" type="number" min="1" max="480" placeholder="Minutes..." />
+    <button class="btn-meeting" onclick="deductMeeting()">📅 Meeting</button>
+  </div>
+
+  <div class="log-section">
+    <div class="log-header">
+      <span class="section-label">Event Log</span>
+      <button class="clear-all-btn" onclick="clearAll()">Clear All</button>
+    </div>
+    <div class="log-list" id="logList">
+      <div class="log-empty" id="logEmpty">No events logged yet</div>
+    </div>
+  </div>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="confirmReset()">↺ Reset Day</button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-value" id="stat-elapsed">--</div>
+      <div class="stat-label">Time Elapsed</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-value" id="stat-deducted">0</div>
+      <div class="stat-label">Mins Deducted</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-value" id="stat-events">0</div>
+      <div class="stat-label">Events</div>
+    </div>
+  </div>
+</div>
+
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="confirm-icon">🔄</div>
+    <div class="confirm-title">Reset the day?</div>
+    <div class="confirm-msg">This will clear your start time and all logged events. This cannot be undone.</div>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="confirm-ok"     onclick="doReset()">Yes, Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+  const KEY = 'prodTracker_v8';
+  const COOKIE_DAYS = 7;
+
+  let events = [];
+  let nextId  = 1;
+
+  // ══════════════════════════════════════════════════════════
+  //  STORAGE — dual write: localStorage + cookie
+  // ══════════════════════════════════════════════════════════
+
+  function writeLS(json) {
+    try { localStorage.setItem(KEY, json); return true; } catch(e) { return false; }
+  }
+
+  function readLS() {
+    try { return localStorage.getItem(KEY); } catch(e) { return null; }
+  }
+
+  function writeCookie(json) {
+    try {
+      const exp = new Date(Date.now() + COOKIE_DAYS * 864e5).toUTCString();
+      document.cookie = KEY + '=' + encodeURIComponent(json) + '; expires=' + exp + '; path=/; SameSite=Lax';
+      return true;
+    } catch(e) { return false; }
+  }
+
+  function readCookie() {
+    try {
+      const m = document.cookie.match('(?:^|;)\s*' + KEY + '=([^;]+)');
+      return m ? decodeURIComponent(m[1]) : null;
+    } catch(e) { return null; }
+  }
+
+  function clearStorage() {
+    try { localStorage.removeItem(KEY); } catch(e) {}
+    try {
+      document.cookie = KEY + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax';
+    } catch(e) {}
+  }
+
+  function saveState() {
+    const state = {
+      startTime : document.getElementById('startTime').value,
+      events    : events,
+      nextId    : nextId,
+      ts        : Date.now()
+    };
+    const json = JSON.stringify(state);
+    const ls  = writeLS(json);
+    const ck  = writeCookie(json);
+
+    if (ls || ck) {
+      const via = ls && ck ? 'localStorage + cookie' : ls ? 'localStorage' : 'cookie';
+      setBar('saved', '✓ Saved  ·  ' + events.length + ' event' + (events.length !== 1 ? 's' : '') + '  ·  via ' + via);
+    } else {
+      setBar('error', '✗ Could not save — check browser settings');
+    }
+  }
+
+  function loadState() {
+    // Try localStorage first, then cookie
+    let raw  = readLS();
+    let src  = 'localStorage';
+    if (!raw) { raw = readCookie(); src = 'cookie'; }
+    if (!raw) { setBar('', 'No saved session'); return false; }
+
+    try {
+      const s = JSON.parse(raw);
+      if (s.startTime)           document.getElementById('startTime').value = s.startTime;
+      if (Array.isArray(s.events)) events = s.events;
+      if (s.nextId)              nextId = s.nextId;
+
+      const ago = s.ts ? ' · saved ' + timeSince(s.ts) : '';
+      setBar('restored', '↩ Session restored' + ago + '  (' + src + ')');
+      return true;
+    } catch(e) {
+      clearStorage();
+      setBar('error', 'Saved data corrupted — starting fresh');
+      return false;
+    }
+  }
+
+  function timeSince(ts) {
+    const s = Math.floor((Date.now() - ts) / 1000);
+    if (s < 60) return s + 's ago';
+    if (s < 3600) return Math.floor(s/60) + 'm ago';
+    return Math.floor(s/3600) + 'h ago';
+  }
+
+  function setBar(type, msg) {
+    const bar = document.getElementById('storageBar');
+    const txt = document.getElementById('storageMsg');
+    bar.className = 'storage-bar' + (type ? ' ' + type : '');
+    txt.textContent = msg;
+  }
+
+  // ══════════════════════════════════════════════════════════
+  //  TIMER
+  // ══════════════════════════════════════════════════════════
+
+  function getStartSec() {
+    const v = document.getElementById('startTime').value;
+    if (!v) return null;
+    const [h, m] = v.split(':').map(Number);
+    return h * 3600 + m * 60;
+  }
+
+  function nowSec() {
+    const n = new Date();
+    return n.getHours() * 3600 + n.getMinutes() * 60 + n.getSeconds();
+  }
+
+  function fmt(sec) {
+    const neg = sec < 0, a = Math.abs(sec);
+    return (neg ? '-' : '') + String(Math.floor(a/60)).padStart(2,'0') + ':' + String(a%60).padStart(2,'0');
+  }
+
+  function fmtElapsed(sec) {
+    const a = Math.abs(sec), h = Math.floor(a/3600), m = Math.floor((a%3600)/60), s = String(a%60).padStart(2,'0');
+    return h > 0 ? h + ':' + String(m).padStart(2,'0') + ':' + s : m + ':' + s;
+  }
+
+  function totalDeducted() { return events.reduce((s,e) => s + e.minutes*60, 0); }
+
+  function tick() {
+    const start = getStartSec();
+    const cel   = document.getElementById('counter');
+    const sub   = document.getElementById('counter-sub');
+    const eel   = document.getElementById('stat-elapsed');
+
+    if (start === null) {
+      cel.textContent = '--:--'; sub.textContent = 'Set your start time above';
+      cel.classList.remove('negative'); return;
+    }
+    const elapsed = nowSec() - start;
+    if (elapsed < 0) {
+      cel.textContent = '--:--'; cel.classList.remove('negative');
+      sub.textContent = '⏳ Start time is in the future';
+      eel.textContent = '--'; return;
+    }
+    const prod = elapsed - totalDeducted();
+    cel.textContent = fmt(prod);
+    cel.classList.toggle('negative', prod < 0);
+    sub.textContent = prod < 0 ? '⚠️ More time deducted than elapsed!'
+                               : 'Since ' + document.getElementById('startTime').value;
+    eel.textContent = fmtElapsed(elapsed);
+  }
+
+  function updateStats() {
+    document.getElementById('stat-deducted').textContent = Math.round(totalDeducted()/60);
+    document.getElementById('stat-events').textContent   = events.length;
+  }
+
+  // ══════════════════════════════════════════════════════════
+  //  LOG
+  // ══════════════════════════════════════════════════════════
+
+  function renderLog() {
+    const list = document.getElementById('logList');
+    const empty = document.getElementById('logEmpty');
+    list.querySelectorAll('.log-item').forEach(el => el.remove());
+    if (!events.length) { empty.style.display = 'block'; return; }
+    empty.style.display = 'none';
+    [...events].reverse().forEach(ev => {
+      const d = document.createElement('div');
+      d.className = 'log-item'; d.id = 'event-' + ev.id;
+      d.innerHTML = `<div class="log-item-left"><div class="log-item-icon">${ev.icon}</div>
+        <div><div class="log-item-label">${ev.label}</div>
+        <div class="log-item-mins">−${ev.minutes} minute${ev.minutes!==1?'s':''}</div></div></div>
+        <button class="log-delete-btn" onclick="removeEvent(${ev.id})" title="Remove">✕</button>`;
+      list.appendChild(d);
+    });
+  }
+
+  // ══════════════════════════════════════════════════════════
+  //  ACTIONS
+  // ══════════════════════════════════════════════════════════
+
+  function deduct(minutes, label, icon) {
+    events.push({ id: nextId++, minutes, label, icon });
+    renderLog(); updateStats(); saveState();
+    showToast('−' + minutes + ' min  ·  ' + icon + ' ' + label);
+    tick();
+  }
+
+  function deductMeeting() {
+    const inp = document.getElementById('meetingMins');
+    const m   = parseInt(inp.value, 10);
+    if (!m || m <= 0) { showToast('⚠️ Enter a valid number of minutes'); return; }
+    if (m > 480)      { showToast('⚠️ Maximum is 480 minutes');          return; }
+    deduct(m, 'Meeting (' + m + ' min)', '📅');
+    inp.value = '';
+  }
+
+  function removeEvent(id) {
+    const ev = events.find(e => e.id === id);
+    if (!ev) return;
+    const el = document.getElementById('event-' + id);
+    if (el) {
+      el.style.transition = 'opacity 0.2s, transform 0.2s';
+      el.style.opacity = '0'; el.style.transform = 'translateX(10px)';
+      setTimeout(() => {
+        events = events.filter(e => e.id !== id);
+        renderLog(); updateStats(); saveState(); tick();
+      }, 200);
+    }
+    showToast('↩️ Removed: ' + ev.icon + ' ' + ev.label);
+  }
+
+  function clearAll() {
+    if (!events.length) return;
+    events = []; renderLog(); updateStats(); saveState(); tick();
+    showToast('🗑️ All events cleared');
+  }
+
+  function setToNow() {
+    const n = new Date();
+    document.getElementById('startTime').value =
+      String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+    saveState(); tick();
+    showToast('⏱️ Start time set to now');
+  }
+
+  function confirmReset() { document.getElementById('confirmOverlay').classList.add('active'); }
+  function closeConfirm()  { document.getElementById('confirmOverlay').classList.remove('active'); }
+  function doReset() {
+    closeConfirm();
+    events = []; nextId = 1;
+    document.getElementById('startTime').value = '08:00';
+    renderLog(); updateStats(); clearStorage(); setBar('','No saved session'); tick();
+    showToast('🔄 Day reset — fresh start!');
+  }
+
+  document.getElementById('confirmOverlay').addEventListener('click', e => { if (e.target===e.currentTarget) closeConfirm(); });
+
+  function showToast(msg) {
+    const c = document.getElementById('toastContainer');
+    const t = document.createElement('div');
+    t.className = 'toast'; t.textContent = msg;
+    c.appendChild(t); setTimeout(() => t.remove(), 2300);
+  }
+
+  // Safety-net saves on tab hide / page unload
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState==='hidden') saveState(); });
+  window.addEventListener('beforeunload', saveState);
+
+  document.getElementById('meetingMins').addEventListener('keydown', e => { if(e.key==='Enter') deductMeeting(); });
+  document.getElementById('startTime').addEventListener('change', () => { saveState(); tick(); });
+
+  // ══════════════════════════════════════════════════════════
+  //  BOOT
+  // ══════════════════════════════════════════════════════════
+  loadState();
+  renderLog();
+  updateStats();
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>

@@ -5,527 +5,206 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Productive Minutes Tracker</title>
   <style>
-    /* ══════════════════════════════════════════════
-       THEME VARIABLES
-    ══════════════════════════════════════════════ */
-    :root {
-      --orange:        #FF8000;
-      --orange-dim:    #FFA040;
-      --orange-gold:   #FFC850;
-      --orange-burnt:  #FF6400;
-    }
+    :root { --orange:#FF8000; }
 
     [data-theme="dark"] {
-      --bg-grad-a:     #1a0e00;
-      --bg-grad-b:     #231200;
-      --bg-grad-c:     #2e1800;
-
-      --card-bg:       rgba(255,255,255,0.04);
-      --card-border:   rgba(255,128,0,0.2);
-      --card-shadow:   0 24px 60px rgba(0,0,0,0.5), 0 0 60px rgba(255,128,0,0.06);
-
-      --text-primary:  #ffffff;
-      --text-muted:    rgba(255,255,255,0.35);
-      --text-faint:    rgba(255,255,255,0.18);
-
-      --panel-bg:      rgba(255,128,0,0.06);
-      --panel-border:  rgba(255,128,0,0.18);
-
-      --input-bg:      rgba(255,128,0,0.12);
-      --input-border:  rgba(255,128,0,0.4);
-      --input-color:   #FF8000;
-
-      --counter-glow:  0 0 50px rgba(255,128,0,0.5);
-      --counter-neg:   #ff4444;
-      --counter-neg-glow: 0 0 40px rgba(255,68,68,0.5);
-
-      --divider:       rgba(255,128,0,0.15);
-      --stat-divider:  rgba(255,128,0,0.12);
-
-      --log-item-bg:   rgba(255,128,0,0.05);
-      --log-item-hover:rgba(255,128,0,0.10);
-      --log-item-bdr:  rgba(255,128,0,0.12);
-      --log-mins-col:  rgba(255,128,0,0.5);
-
-      --btn15-bg:      rgba(255,128,0,0.15);
-      --btn15-hover:   rgba(255,128,0,0.28);
-      --btn15-bdr:     rgba(255,128,0,0.28);
-      --btn15-col:     #FF8000;
-
-      --btn10-bg:      rgba(255,160,40,0.12);
-      --btn10-hover:   rgba(255,160,40,0.24);
-      --btn10-bdr:     rgba(255,160,40,0.25);
-      --btn10-col:     #FFA028;
-
-      --btnL-bg:       rgba(255,200,80,0.12);
-      --btnL-hover:    rgba(255,200,80,0.24);
-      --btnL-bdr:      rgba(255,200,80,0.22);
-      --btnL-col:      #FFC850;
-
-      --btnM-bg:       rgba(255,100,0,0.15);
-      --btnM-hover:    rgba(255,100,0,0.28);
-      --btnM-bdr:      rgba(255,100,0,0.25);
-      --btnM-col:      #FF6400;
-
-      --meet-inp-bg:   rgba(255,100,0,0.08);
-      --meet-inp-bdr:  rgba(255,100,0,0.25);
-      --meet-inp-col:  #FF6400;
-
-      --reset-bg:      rgba(255,80,80,0.08);
-      --reset-bdr:     rgba(255,80,80,0.3);
-      --reset-col:     rgba(255,110,110,0.7);
-      --reset-hover:   rgba(255,80,80,0.18);
-
-      --del-bg:        rgba(255,80,80,0.10);
-      --del-bdr:       rgba(255,80,80,0.2);
-      --del-col:       rgba(255,80,80,0.55);
-
-      --clear-col:     rgba(255,80,80,0.45);
-
-      --toast-bg:      rgba(40,20,0,0.9);
-      --toast-bdr:     rgba(255,128,0,0.35);
-      --toast-col:     #FFB060;
-
-      --confirm-bg:    #1e1000;
-      --confirm-bdr:   rgba(255,128,0,0.3);
-
-      --scrollbar:     rgba(255,128,0,0.25);
-
-      --storage-ok-col:  rgba(100,210,160,0.7);
-      --storage-ok-bdr:  rgba(100,210,160,0.2);
-      --storage-ok-bg:   rgba(100,210,160,0.05);
-      --storage-res-col: rgba(255,165,0,0.9);
-      --storage-res-bdr: rgba(255,165,0,0.3);
-      --storage-res-bg:  rgba(255,165,0,0.07);
-      --storage-err-col: rgba(255,90,90,0.7);
-      --storage-err-bdr: rgba(255,90,90,0.2);
-      --storage-err-bg:  rgba(255,90,90,0.05);
-      --storage-def-col: rgba(255,255,255,0.25);
-      --storage-def-bdr: rgba(255,255,255,0.06);
-      --storage-def-bg:  rgba(255,255,255,0.03);
-
-      --toggle-bg:     rgba(255,128,0,0.12);
-      --toggle-bdr:    rgba(255,128,0,0.3);
-      --toggle-col:    rgba(255,128,0,0.7);
+      --bg-a:#1a0e00; --bg-b:#231200; --bg-c:#2e1800;
+      --card-bg:rgba(255,255,255,0.04); --card-bdr:rgba(255,128,0,0.2);
+      --card-shadow:0 24px 60px rgba(0,0,0,0.5),0 0 60px rgba(255,128,0,0.06);
+      --text:#ffffff; --muted:rgba(255,255,255,0.35); --faint:rgba(255,255,255,0.18);
+      --panel-bg:rgba(255,128,0,0.06); --panel-bdr:rgba(255,128,0,0.18);
+      --inp-bg:rgba(255,128,0,0.12); --inp-bdr:rgba(255,128,0,0.4); --inp-col:#FF8000;
+      --ctr-glow:0 0 50px rgba(255,128,0,0.5);
+      --neg:#ff4444; --neg-glow:0 0 40px rgba(255,68,68,0.5);
+      --done:#64d2a0; --done-glow:0 0 50px rgba(100,210,160,0.5);
+      --div:rgba(255,128,0,0.15); --sdiv:rgba(255,128,0,0.12);
+      --log-bg:rgba(255,128,0,0.05); --log-hov:rgba(255,128,0,0.10); --log-bdr:rgba(255,128,0,0.12); --log-min:rgba(255,128,0,0.5);
+      --b15-bg:rgba(255,128,0,0.15); --b15-hov:rgba(255,128,0,0.28); --b15-bdr:rgba(255,128,0,0.28); --b15-col:#FF8000;
+      --b10-bg:rgba(255,160,40,0.12); --b10-hov:rgba(255,160,40,0.24); --b10-bdr:rgba(255,160,40,0.25); --b10-col:#FFA028;
+      --bL-bg:rgba(255,200,80,0.12);  --bL-hov:rgba(255,200,80,0.24);  --bL-bdr:rgba(255,200,80,0.22);  --bL-col:#FFC850;
+      --bM-bg:rgba(255,100,0,0.15);   --bM-hov:rgba(255,100,0,0.28);   --bM-bdr:rgba(255,100,0,0.25);   --bM-col:#FF6400;
+      --mi-bg:rgba(255,100,0,0.08); --mi-bdr:rgba(255,100,0,0.25); --mi-col:#FF6400;
+      --rst-bg:rgba(255,80,80,0.08); --rst-bdr:rgba(255,80,80,0.3); --rst-col:rgba(255,110,110,0.7); --rst-hov:rgba(255,80,80,0.18);
+      --del-bg:rgba(255,80,80,0.10); --del-bdr:rgba(255,80,80,0.2); --del-col:rgba(255,80,80,0.55);
+      --clr:rgba(255,80,80,0.45);
+      --toast-bg:rgba(40,20,0,0.9); --toast-bdr:rgba(255,128,0,0.35); --toast-col:#FFB060;
+      --dlg-bg:#1e1000; --dlg-bdr:rgba(255,128,0,0.3);
+      --scroll:rgba(255,128,0,0.25);
+      --sok-c:rgba(100,210,160,0.7); --sok-b:rgba(100,210,160,0.2); --sok-bg:rgba(100,210,160,0.05);
+      --srs-c:rgba(255,165,0,0.9);   --srs-b:rgba(255,165,0,0.3);   --srs-bg:rgba(255,165,0,0.07);
+      --ser-c:rgba(255,90,90,0.7);   --ser-b:rgba(255,90,90,0.2);   --ser-bg:rgba(255,90,90,0.05);
+      --sdf-c:rgba(255,255,255,0.25);--sdf-b:rgba(255,255,255,0.06);--sdf-bg:rgba(255,255,255,0.03);
+      --tgl-bg:rgba(255,128,0,0.12); --tgl-bdr:rgba(255,128,0,0.3); --tgl-col:rgba(255,128,0,0.7);
+      --shift-sel-bg:rgba(255,128,0,0.25); --shift-sel-bdr:rgba(255,128,0,0.6); --shift-sel-col:#FF8000;
+      --shift-bg:rgba(255,128,0,0.08); --shift-bdr:rgba(255,128,0,0.2); --shift-col:rgba(255,128,0,0.55);
+      --progress-bg:rgba(255,255,255,0.07); --progress-fill:rgba(255,128,0,0.6); --progress-done:rgba(100,210,160,0.7);
     }
 
     [data-theme="light"] {
-      --bg-grad-a:     #fff3e8;
-      --bg-grad-b:     #ffe8cc;
-      --bg-grad-c:     #ffddb5;
-
-      --card-bg:       rgba(255,255,255,0.85);
-      --card-border:   rgba(255,128,0,0.25);
-      --card-shadow:   0 24px 60px rgba(180,80,0,0.12), 0 0 60px rgba(255,128,0,0.08);
-
-      --text-primary:  #1a0e00;
-      --text-muted:    rgba(80,40,0,0.55);
-      --text-faint:    rgba(80,40,0,0.3);
-
-      --panel-bg:      rgba(255,128,0,0.07);
-      --panel-border:  rgba(255,128,0,0.22);
-
-      --input-bg:      rgba(255,128,0,0.08);
-      --input-border:  rgba(255,128,0,0.45);
-      --input-color:   #b35500;
-
-      --counter-glow:  0 0 40px rgba(255,128,0,0.2);
-      --counter-neg:   #cc2200;
-      --counter-neg-glow: 0 0 30px rgba(200,50,0,0.25);
-
-      --divider:       rgba(255,128,0,0.18);
-      --stat-divider:  rgba(255,128,0,0.15);
-
-      --log-item-bg:   rgba(255,128,0,0.05);
-      --log-item-hover:rgba(255,128,0,0.10);
-      --log-item-bdr:  rgba(255,128,0,0.15);
-      --log-mins-col:  rgba(180,80,0,0.5);
-
-      --btn15-bg:      rgba(255,128,0,0.12);
-      --btn15-hover:   rgba(255,128,0,0.22);
-      --btn15-bdr:     rgba(255,128,0,0.3);
-      --btn15-col:     #cc5500;
-
-      --btn10-bg:      rgba(255,150,0,0.10);
-      --btn10-hover:   rgba(255,150,0,0.20);
-      --btn10-bdr:     rgba(255,150,0,0.28);
-      --btn10-col:     #b36000;
-
-      --btnL-bg:       rgba(200,140,0,0.10);
-      --btnL-hover:    rgba(200,140,0,0.20);
-      --btnL-bdr:      rgba(200,140,0,0.25);
-      --btnL-col:      #8a6000;
-
-      --btnM-bg:       rgba(200,70,0,0.10);
-      --btnM-hover:    rgba(200,70,0,0.20);
-      --btnM-bdr:      rgba(200,70,0,0.25);
-      --btnM-col:      #aa3300;
-
-      --meet-inp-bg:   rgba(200,70,0,0.07);
-      --meet-inp-bdr:  rgba(200,70,0,0.25);
-      --meet-inp-col:  #aa3300;
-
-      --reset-bg:      rgba(200,0,0,0.06);
-      --reset-bdr:     rgba(200,0,0,0.2);
-      --reset-col:     rgba(180,40,40,0.7);
-      --reset-hover:   rgba(200,0,0,0.12);
-
-      --del-bg:        rgba(200,0,0,0.07);
-      --del-bdr:       rgba(200,0,0,0.18);
-      --del-col:       rgba(180,40,40,0.55);
-
-      --clear-col:     rgba(180,40,40,0.5);
-
-      --toast-bg:      rgba(255,245,235,0.97);
-      --toast-bdr:     rgba(255,128,0,0.4);
-      --toast-col:     #8a4400;
-
-      --confirm-bg:    #fff8f0;
-      --confirm-bdr:   rgba(255,128,0,0.3);
-
-      --scrollbar:     rgba(255,128,0,0.3);
-
-      --storage-ok-col:  rgba(0,140,80,0.8);
-      --storage-ok-bdr:  rgba(0,140,80,0.2);
-      --storage-ok-bg:   rgba(0,140,80,0.05);
-      --storage-res-col: rgba(180,90,0,0.9);
-      --storage-res-bdr: rgba(180,90,0,0.25);
-      --storage-res-bg:  rgba(180,90,0,0.06);
-      --storage-err-col: rgba(180,0,0,0.7);
-      --storage-err-bdr: rgba(180,0,0,0.2);
-      --storage-err-bg:  rgba(180,0,0,0.05);
-      --storage-def-col: rgba(80,40,0,0.4);
-      --storage-def-bdr: rgba(80,40,0,0.1);
-      --storage-def-bg:  rgba(80,40,0,0.03);
-
-      --toggle-bg:     rgba(255,128,0,0.1);
-      --toggle-bdr:    rgba(255,128,0,0.3);
-      --toggle-col:    #b35500;
+      --bg-a:#fff3e8; --bg-b:#ffe8cc; --bg-c:#ffddb5;
+      --card-bg:rgba(255,255,255,0.85); --card-bdr:rgba(255,128,0,0.25);
+      --card-shadow:0 24px 60px rgba(180,80,0,0.12),0 0 60px rgba(255,128,0,0.08);
+      --text:#1a0e00; --muted:rgba(80,40,0,0.55); --faint:rgba(80,40,0,0.3);
+      --panel-bg:rgba(255,128,0,0.07); --panel-bdr:rgba(255,128,0,0.22);
+      --inp-bg:rgba(255,128,0,0.08); --inp-bdr:rgba(255,128,0,0.45); --inp-col:#b35500;
+      --ctr-glow:0 0 40px rgba(255,128,0,0.2);
+      --neg:#cc2200; --neg-glow:0 0 30px rgba(200,50,0,0.25);
+      --done:#1a7a4a; --done-glow:0 0 30px rgba(26,122,74,0.2);
+      --div:rgba(255,128,0,0.18); --sdiv:rgba(255,128,0,0.15);
+      --log-bg:rgba(255,128,0,0.05); --log-hov:rgba(255,128,0,0.10); --log-bdr:rgba(255,128,0,0.15); --log-min:rgba(180,80,0,0.5);
+      --b15-bg:rgba(255,128,0,0.12); --b15-hov:rgba(255,128,0,0.22); --b15-bdr:rgba(255,128,0,0.3);  --b15-col:#cc5500;
+      --b10-bg:rgba(255,150,0,0.10); --b10-hov:rgba(255,150,0,0.20); --b10-bdr:rgba(255,150,0,0.28); --b10-col:#b36000;
+      --bL-bg:rgba(200,140,0,0.10);  --bL-hov:rgba(200,140,0,0.20);  --bL-bdr:rgba(200,140,0,0.25);  --bL-col:#8a6000;
+      --bM-bg:rgba(200,70,0,0.10);   --bM-hov:rgba(200,70,0,0.20);   --bM-bdr:rgba(200,70,0,0.25);   --bM-col:#aa3300;
+      --mi-bg:rgba(200,70,0,0.07); --mi-bdr:rgba(200,70,0,0.25); --mi-col:#aa3300;
+      --rst-bg:rgba(200,0,0,0.06); --rst-bdr:rgba(200,0,0,0.2); --rst-col:rgba(180,40,40,0.7); --rst-hov:rgba(200,0,0,0.12);
+      --del-bg:rgba(200,0,0,0.07); --del-bdr:rgba(200,0,0,0.18); --del-col:rgba(180,40,40,0.55);
+      --clr:rgba(180,40,40,0.5);
+      --toast-bg:rgba(255,245,235,0.97); --toast-bdr:rgba(255,128,0,0.4); --toast-col:#8a4400;
+      --dlg-bg:#fff8f0; --dlg-bdr:rgba(255,128,0,0.3);
+      --scroll:rgba(255,128,0,0.3);
+      --sok-c:rgba(0,140,80,0.8);    --sok-b:rgba(0,140,80,0.2);    --sok-bg:rgba(0,140,80,0.05);
+      --srs-c:rgba(180,90,0,0.9);    --srs-b:rgba(180,90,0,0.25);   --srs-bg:rgba(180,90,0,0.06);
+      --ser-c:rgba(180,0,0,0.7);     --ser-b:rgba(180,0,0,0.2);     --ser-bg:rgba(180,0,0,0.05);
+      --sdf-c:rgba(80,40,0,0.4);     --sdf-b:rgba(80,40,0,0.1);     --sdf-bg:rgba(80,40,0,0.03);
+      --tgl-bg:rgba(255,128,0,0.1);  --tgl-bdr:rgba(255,128,0,0.3); --tgl-col:#b35500;
+      --shift-sel-bg:rgba(255,128,0,0.18); --shift-sel-bdr:rgba(255,128,0,0.55); --shift-sel-col:#b35500;
+      --shift-bg:rgba(255,128,0,0.07); --shift-bdr:rgba(255,128,0,0.2); --shift-col:rgba(140,70,0,0.6);
+      --progress-bg:rgba(0,0,0,0.06); --progress-fill:rgba(255,128,0,0.5); --progress-done:rgba(26,122,74,0.6);
     }
 
-    /* ══════════════════════════════════════════════
-       BASE
-    ══════════════════════════════════════════════ */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(145deg, var(--bg-grad-a) 0%, var(--bg-grad-b) 50%, var(--bg-grad-c) 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-primary);
-      padding: 32px 16px;
-      transition: background 0.35s ease, color 0.35s ease;
-    }
-
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(14px);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 44px 52px;
-      width: 480px;
-      box-shadow: var(--card-shadow);
-      text-align: center;
-      transition: background 0.35s, border-color 0.35s, box-shadow 0.35s;
-    }
-
-    /* ── Header row ── */
-    .header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    .app-title {
-      font-size: 13px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      flex: 1;
-      text-align: center;
-    }
-
-    /* ── Theme toggle ── */
-    .theme-toggle {
-      background: var(--toggle-bg);
-      border: 1px solid var(--toggle-bdr);
-      color: var(--toggle-col);
-      border-radius: 50px;
-      padding: 6px 13px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      flex-shrink: 0;
-    }
-    .theme-toggle:hover { opacity: 0.8; transform: scale(1.05); }
-    .theme-toggle .toggle-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    /* ── Storage status ── */
-    .storage-bar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-size: 10px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-bottom: 22px;
-      padding: 6px 14px;
-      border-radius: 50px;
-      border: 1px solid var(--storage-def-bdr);
-      background: var(--storage-def-bg);
-      color: var(--storage-def-col);
-      transition: all 0.3s;
-    }
-    .storage-bar.saved    { color: var(--storage-ok-col);  border-color: var(--storage-ok-bdr);  background: var(--storage-ok-bg); }
-    .storage-bar.restored { color: var(--storage-res-col); border-color: var(--storage-res-bdr); background: var(--storage-res-bg); }
-    .storage-bar.error    { color: var(--storage-err-col); border-color: var(--storage-err-bdr); background: var(--storage-err-bg); }
-    .storage-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(145deg,var(--bg-a) 0%,var(--bg-b) 50%,var(--bg-c) 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;color:var(--text);padding:32px 16px;transition:background .35s,color .35s;}
+    .card{background:var(--card-bg);backdrop-filter:blur(14px);border:1px solid var(--card-bdr);border-radius:24px;padding:44px 52px;width:480px;box-shadow:var(--card-shadow);text-align:center;transition:background .35s,border-color .35s,box-shadow .35s;}
+    .header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+    .app-title{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);flex:1;text-align:center;}
+    .theme-toggle{background:var(--tgl-bg);border:1px solid var(--tgl-bdr);color:var(--tgl-col);border-radius:50px;padding:6px 13px;font-size:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;flex-shrink:0;}
+    .theme-toggle:hover{opacity:.8;transform:scale(1.05);}
+    .toggle-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+    .storage-bar{display:flex;align-items:center;justify-content:center;gap:6px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:22px;padding:6px 14px;border-radius:50px;border:1px solid var(--sdf-b);background:var(--sdf-bg);color:var(--sdf-c);transition:all .3s;}
+    .storage-bar.saved{color:var(--sok-c);border-color:var(--sok-b);background:var(--sok-bg);}
+    .storage-bar.restored{color:var(--srs-c);border-color:var(--srs-b);background:var(--srs-bg);}
+    .storage-bar.error{color:var(--ser-c);border-color:var(--ser-b);background:var(--ser-bg);}
+    .storage-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
 
     /* ── Start time ── */
-    .start-time-section {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 32px;
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
-      border-radius: 16px;
-      padding: 14px 18px;
-      transition: background 0.35s, border-color 0.35s;
-    }
-    .start-time-label {
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .time-input {
-      background: var(--input-bg);
-      border: 1px solid var(--input-border);
-      border-radius: 10px;
-      color: var(--input-color);
-      font-size: 20px;
-      font-weight: 700;
-      padding: 8px 12px;
-      outline: none;
-      width: 140px;
-      min-width: 140px;
-      text-align: center;
-      letter-spacing: 1px;
-      font-variant-numeric: tabular-nums;
-      transition: all 0.2s;
-    }
-    .time-input:focus { border-color: var(--orange); }
-    .time-input::-webkit-calendar-picker-indicator {
-      filter: invert(55%) sepia(90%) saturate(600%) hue-rotate(5deg);
-      cursor: pointer;
-    }
-    [data-theme="light"] .time-input::-webkit-calendar-picker-indicator {
-      filter: invert(30%) sepia(80%) saturate(600%) hue-rotate(10deg);
-    }
+    .start-time-section{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px;background:var(--panel-bg);border:1px solid var(--panel-bdr);border-radius:16px;padding:14px 18px;transition:background .35s,border-color .35s;}
+    .start-time-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);white-space:nowrap;flex-shrink:0;}
+    .time-input{background:var(--inp-bg);border:1px solid var(--inp-bdr);border-radius:10px;color:var(--inp-col);font-size:20px;font-weight:700;padding:8px 12px;outline:none;width:140px;min-width:140px;text-align:center;letter-spacing:1px;font-variant-numeric:tabular-nums;transition:all .2s;}
+    .time-input:focus{border-color:var(--orange);}
+    .time-input::-webkit-calendar-picker-indicator{filter:invert(55%) sepia(90%) saturate(600%) hue-rotate(5deg);cursor:pointer;}
+    [data-theme="light"] .time-input::-webkit-calendar-picker-indicator{filter:invert(30%) sepia(80%) saturate(600%) hue-rotate(10deg);}
+    .now-btn{padding:8px 12px;border-radius:10px;border:1px solid var(--panel-bdr);background:var(--panel-bg);color:var(--muted);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .18s;}
+    .now-btn:hover{background:var(--inp-bg);color:var(--orange);border-color:var(--inp-bdr);}
 
-    .now-btn {
-      padding: 8px 12px;
-      border-radius: 10px;
-      border: 1px solid var(--panel-border);
-      background: var(--panel-bg);
-      color: var(--text-muted);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      cursor: pointer;
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: all 0.18s;
+    /* ── Shift selector ── */
+    .shift-section{background:var(--panel-bg);border:1px solid var(--panel-bdr);border-radius:16px;padding:14px 18px;margin-bottom:32px;transition:background .35s,border-color .35s;}
+    .shift-label-row{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+    .shift-btns{display:flex;gap:8px;align-items:center;}
+    .shift-btn{flex:1;padding:9px 6px;border-radius:10px;border:1px solid var(--shift-bdr);background:var(--shift-bg);color:var(--shift-col);font-size:12px;font-weight:700;cursor:pointer;transition:all .18s;letter-spacing:0.3px;}
+    .shift-btn:hover{border-color:var(--shift-sel-bdr);color:var(--shift-sel-col);}
+    .shift-btn:active{transform:scale(.96);}
+    .shift-btn.active{background:var(--shift-sel-bg);border-color:var(--shift-sel-bdr);color:var(--shift-sel-col);}
+    .shift-other-wrap{display:flex;align-items:center;gap:6px;flex:1.2;}
+    .shift-other-inp{
+      width:100%;padding:9px 10px;border-radius:10px;border:1px solid var(--shift-bdr);
+      background:var(--shift-bg);color:var(--shift-col);font-size:12px;font-weight:700;
+      outline:none;text-align:center;transition:all .18s;
     }
-    .now-btn:hover { background: var(--input-bg); color: var(--orange); border-color: var(--input-border); }
+    .shift-other-inp::placeholder{color:var(--faint);font-weight:400;font-size:11px;}
+    .shift-other-inp:focus{border-color:var(--shift-sel-bdr);}
+    .shift-other-inp.active{background:var(--shift-sel-bg);border-color:var(--shift-sel-bdr);color:var(--shift-sel-col);}
+    .shift-cap-info{font-size:11px;color:var(--muted);margin-top:10px;letter-spacing:0.3px;min-height:16px;}
+    .shift-cap-info span{color:var(--orange);font-weight:700;}
+
+    /* ── Progress bar ── */
+    .progress-wrap{margin-top:10px;}
+    .progress-track{height:4px;border-radius:2px;background:var(--progress-bg);overflow:hidden;}
+    .progress-fill{height:100%;border-radius:2px;background:var(--progress-fill);transition:width .5s ease,background .3s;}
+    .progress-fill.done{background:var(--progress-done);}
 
     /* ── Counter ── */
-    .counter-label {
-      font-size: 14px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-    .counter {
-      font-size: 88px;
-      font-weight: 700;
-      letter-spacing: -2px;
-      line-height: 1;
-      font-variant-numeric: tabular-nums;
-      color: var(--text-primary);
-      text-shadow: var(--counter-glow);
-      transition: color 0.3s, text-shadow 0.3s;
-    }
-    .counter.negative { color: var(--counter-neg); text-shadow: var(--counter-neg-glow); }
-    .counter-sub {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 8px;
-      margin-bottom: 36px;
-      letter-spacing: 1px;
-      min-height: 18px;
-    }
+    .counter-label{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;font-weight:600;}
+    .counter{font-size:88px;font-weight:700;letter-spacing:-2px;line-height:1;font-variant-numeric:tabular-nums;color:var(--text);text-shadow:var(--ctr-glow);transition:color .4s,text-shadow .4s;}
+    .counter.negative{color:var(--neg);text-shadow:var(--neg-glow);}
+    .counter.done{color:var(--done);text-shadow:var(--done-glow);}
+    .counter-sub{font-size:13px;color:var(--muted);margin-top:8px;margin-bottom:36px;letter-spacing:1px;min-height:18px;}
 
-    .divider { height: 1px; background: var(--divider); margin: 0 -8px 24px; transition: background 0.35s; }
-
-    .section-label {
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text-faint);
-      margin-bottom: 16px;
-    }
-
-    /* ── Deduct buttons ── */
-    .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
-    .btn { padding: 14px 10px; border: none; border-radius: 14px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.18s ease; }
-    .btn:active { transform: scale(0.96); }
-
-    .btn-break-15 { background: var(--btn15-bg); color: var(--btn15-col); border: 1px solid var(--btn15-bdr); }
-    .btn-break-15:hover { background: var(--btn15-hover); }
-    .btn-break-10 { background: var(--btn10-bg); color: var(--btn10-col); border: 1px solid var(--btn10-bdr); }
-    .btn-break-10:hover { background: var(--btn10-hover); }
-    .btn-lunch { background: var(--btnL-bg); color: var(--btnL-col); border: 1px solid var(--btnL-bdr); }
-    .btn-lunch:hover { background: var(--btnL-hover); }
-
-    .meeting-row { display: flex; gap: 10px; }
-    .meeting-input {
-      flex: 1; padding: 14px 16px; border-radius: 14px;
-      border: 1px solid var(--meet-inp-bdr);
-      background: var(--meet-inp-bg);
-      color: var(--meet-inp-col);
-      font-size: 14px; font-weight: 600; outline: none; text-align: center; transition: all 0.18s;
-    }
-    .meeting-input::placeholder { color: var(--text-faint); font-weight: 400; }
-    .meeting-input:focus { border-color: var(--orange); }
-    .btn-meeting {
-      background: var(--btnM-bg); color: var(--btnM-col); border: 1px solid var(--btnM-bdr);
-      padding: 14px 20px; border-radius: 14px; font-size: 14px; font-weight: 600;
-      cursor: pointer; transition: all 0.18s ease; white-space: nowrap;
-    }
-    .btn-meeting:hover { background: var(--btnM-hover); }
-    .btn-meeting:active { transform: scale(0.96); }
-
-    /* ── Event log ── */
-    .log-section { margin-top: 24px; }
-    .log-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-    .log-header .section-label { margin-bottom: 0; }
-    .clear-all-btn {
-      font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
-      color: var(--clear-col); background: none; border: none;
-      cursor: pointer; padding: 4px 8px; border-radius: 6px; transition: all 0.18s; font-weight: 600;
-    }
-    .clear-all-btn:hover { opacity: 0.8; }
-
-    .log-list { display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto; padding-right: 2px; }
-    .log-list::-webkit-scrollbar { width: 4px; }
-    .log-list::-webkit-scrollbar-track { background: transparent; }
-    .log-list::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 4px; }
-
-    .log-item {
-      display: flex; align-items: center; justify-content: space-between;
-      background: var(--log-item-bg); border: 1px solid var(--log-item-bdr);
-      border-radius: 12px; padding: 10px 14px;
-      animation: slide-in 0.2s ease; transition: background 0.15s;
-    }
-    .log-item:hover { background: var(--log-item-hover); }
-    @keyframes slide-in { from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);} }
-    .log-item-left { display: flex; align-items: center; gap: 10px; text-align: left; }
-    .log-item-icon { font-size: 16px; line-height: 1; }
-    .log-item-label { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-    .log-item-mins { font-size: 11px; color: var(--log-mins-col); margin-top: 2px; }
-    .log-delete-btn {
-      background: var(--del-bg); border: 1px solid var(--del-bdr);
-      color: var(--del-col); border-radius: 8px; width: 28px; height: 28px;
-      font-size: 14px; cursor: pointer; display: flex; align-items: center;
-      justify-content: center; flex-shrink: 0; transition: all 0.18s;
-    }
-    .log-delete-btn:hover { opacity: 0.8; transform: scale(1.1); }
-    .log-empty { font-size: 12px; color: var(--text-faint); padding: 16px 0; letter-spacing: 0.5px; }
-
-    /* ── Reset ── */
-    .reset-row { margin-top: 20px; display: flex; justify-content: center; }
-    .reset-btn {
-      display: flex; align-items: center; gap: 7px; padding: 11px 28px; border-radius: 50px;
-      border: 1px solid var(--reset-bdr); background: var(--reset-bg);
-      color: var(--reset-col); font-size: 12px; font-weight: 600;
-      letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: all 0.2s;
-    }
-    .reset-btn:hover { background: var(--reset-hover); }
-    .reset-btn:active { transform: scale(0.97); }
-
-    /* ── Stats ── */
-    .stats-row { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--stat-divider); }
-    .stat-item { text-align: center; flex: 1; }
-    .stat-value { font-size: 20px; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
-    .stat-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-faint); margin-top: 4px; }
-    .stat-divider { width: 1px; background: var(--stat-divider); }
-
-    /* ── Toast ── */
-    .toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; z-index: 999; }
-    .toast {
-      background: var(--toast-bg); border: 1px solid var(--toast-bdr);
-      backdrop-filter: blur(10px); color: var(--toast-col); padding: 10px 22px;
-      border-radius: 50px; font-size: 13px; font-weight: 500;
-      animation: toast-in 0.25s ease, toast-out 0.4s ease 1.8s forwards; white-space: nowrap;
-    }
+    .divider{height:1px;background:var(--div);margin:0 -8px 24px;transition:background .35s;}
+    .section-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--faint);margin-bottom:16px;}
+    .btn-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+    .btn{padding:14px 10px;border:none;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;transition:all .18s ease;}
+    .btn:active{transform:scale(.96);}
+    .btn-break-15{background:var(--b15-bg);color:var(--b15-col);border:1px solid var(--b15-bdr);}
+    .btn-break-15:hover{background:var(--b15-hov);}
+    .btn-break-10{background:var(--b10-bg);color:var(--b10-col);border:1px solid var(--b10-bdr);}
+    .btn-break-10:hover{background:var(--b10-hov);}
+    .btn-lunch{background:var(--bL-bg);color:var(--bL-col);border:1px solid var(--bL-bdr);}
+    .btn-lunch:hover{background:var(--bL-hov);}
+    .meeting-row{display:flex;gap:10px;}
+    .meeting-input{flex:1;padding:14px 16px;border-radius:14px;border:1px solid var(--mi-bdr);background:var(--mi-bg);color:var(--mi-col);font-size:14px;font-weight:600;outline:none;text-align:center;transition:all .18s;}
+    .meeting-input::placeholder{color:var(--faint);font-weight:400;}
+    .meeting-input:focus{border-color:var(--orange);}
+    .btn-meeting{background:var(--bM-bg);color:var(--bM-col);border:1px solid var(--bM-bdr);padding:14px 20px;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;transition:all .18s ease;white-space:nowrap;}
+    .btn-meeting:hover{background:var(--bM-hov);}
+    .btn-meeting:active{transform:scale(.96);}
+    .log-section{margin-top:24px;}
+    .log-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .log-header .section-label{margin-bottom:0;}
+    .clear-all-btn{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--clr);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px;transition:all .18s;font-weight:600;}
+    .clear-all-btn:hover{opacity:.8;}
+    .log-list{display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto;padding-right:2px;}
+    .log-list::-webkit-scrollbar{width:4px;}
+    .log-list::-webkit-scrollbar-track{background:transparent;}
+    .log-list::-webkit-scrollbar-thumb{background:var(--scroll);border-radius:4px;}
+    .log-item{display:flex;align-items:center;justify-content:space-between;background:var(--log-bg);border:1px solid var(--log-bdr);border-radius:12px;padding:10px 14px;animation:slide-in .2s ease;transition:background .15s;}
+    .log-item:hover{background:var(--log-hov);}
+    @keyframes slide-in{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+    .log-item-left{display:flex;align-items:center;gap:10px;text-align:left;}
+    .log-item-icon{font-size:16px;line-height:1;}
+    .log-item-label{font-size:13px;font-weight:600;color:var(--text);}
+    .log-item-mins{font-size:11px;color:var(--log-min);margin-top:2px;}
+    .log-delete-btn{background:var(--del-bg);border:1px solid var(--del-bdr);color:var(--del-col);border-radius:8px;width:28px;height:28px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s;}
+    .log-delete-btn:hover{opacity:.8;transform:scale(1.1);}
+    .log-empty{font-size:12px;color:var(--faint);padding:16px 0;letter-spacing:.5px;}
+    .reset-row{margin-top:20px;display:flex;justify-content:center;}
+    .reset-btn{display:flex;align-items:center;gap:7px;padding:11px 28px;border-radius:50px;border:1px solid var(--rst-bdr);background:var(--rst-bg);color:var(--rst-col);font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+    .reset-btn:hover{background:var(--rst-hov);}
+    .reset-btn:active{transform:scale(.97);}
+    .stats-row{display:flex;justify-content:space-between;margin-top:24px;padding-top:20px;border-top:1px solid var(--sdiv);}
+    .stat-item{text-align:center;flex:1;}
+    .stat-value{font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;}
+    .stat-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-top:4px;}
+    .stat-divider{width:1px;background:var(--sdiv);}
+    .toast-container{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;z-index:999;}
+    .toast{background:var(--toast-bg);border:1px solid var(--toast-bdr);backdrop-filter:blur(10px);color:var(--toast-col);padding:10px 22px;border-radius:50px;font-size:13px;font-weight:500;animation:toast-in .25s ease,toast-out .4s ease 1.8s forwards;white-space:nowrap;}
     @keyframes toast-in{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
     @keyframes toast-out{from{opacity:1;}to{opacity:0;}}
-
-    /* ── Confirm overlay ── */
-    .confirm-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); backdrop-filter:blur(4px); z-index:1000; align-items:center; justify-content:center; }
-    .confirm-overlay.active { display:flex; }
-    .confirm-box {
-      background: var(--confirm-bg); border: 1px solid var(--confirm-bdr);
-      border-radius: 20px; padding: 36px 40px; text-align: center;
-      box-shadow: 0 16px 48px rgba(0,0,0,0.3); max-width: 320px; width: 90%; animation: pop-in 0.2s ease;
-    }
-    @keyframes pop-in{from{opacity:0;transform:scale(0.92);}to{opacity:1;transform:scale(1);}}
-    .confirm-icon { font-size: 36px; margin-bottom: 12px; }
-    .confirm-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
-    .confirm-msg { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 24px; }
-    .confirm-btns { display: flex; gap: 10px; }
-    .confirm-cancel { flex:1;padding:12px;border-radius:12px;border:1px solid var(--divider);background:var(--panel-bg);color:var(--text-muted);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.18s; }
-    .confirm-cancel:hover { opacity: 0.8; }
-    .confirm-ok { flex:1;padding:12px;border-radius:12px;border:1px solid var(--reset-bdr);background:var(--reset-bg);color:var(--reset-col);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.18s; }
-    .confirm-ok:hover { background: var(--reset-hover); }
+    .confirm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;}
+    .confirm-overlay.active{display:flex;}
+    .confirm-box{background:var(--dlg-bg);border:1px solid var(--dlg-bdr);border-radius:20px;padding:36px 40px;text-align:center;box-shadow:0 16px 48px rgba(0,0,0,.3);max-width:320px;width:90%;animation:pop-in .2s ease;}
+    @keyframes pop-in{from{opacity:0;transform:scale(.92);}to{opacity:1;transform:scale(1);}}
+    .confirm-icon{font-size:36px;margin-bottom:12px;}
+    .confirm-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;}
+    .confirm-msg{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:24px;}
+    .confirm-btns{display:flex;gap:10px;}
+    .confirm-cancel{flex:1;padding:12px;border-radius:12px;border:1px solid var(--div);background:var(--panel-bg);color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;}
+    .confirm-cancel:hover{opacity:.8;}
+    .confirm-ok{flex:1;padding:12px;border-radius:12px;border:1px solid var(--rst-bdr);background:var(--rst-bg);color:var(--rst-col);font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;}
+    .confirm-ok:hover{background:var(--rst-hov);}
   </style>
 </head>
 <body>
-
 <div class="card">
-
-  <!-- Header -->
   <div class="header-row">
     <div style="width:70px"></div>
     <div class="app-title">Productivity Tracker</div>
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+    <button class="theme-toggle" onclick="toggleTheme()">
       <span id="themeIcon">☀️</span>
       <span class="toggle-label" id="themeLabel">Light</span>
     </button>
   </div>
 
-  <!-- Storage status -->
   <div class="storage-bar" id="storageBar">
     <div class="storage-dot"></div>
     <span id="storageMsg">Initialising…</span>
@@ -534,8 +213,29 @@
   <!-- Start time -->
   <div class="start-time-section">
     <span class="start-time-label">Started at</span>
-    <input class="time-input" type="time" id="startTime" value="08:00" />
+    <input class="time-input" type="time" id="startTime" value="08:00"/>
     <button class="now-btn" onclick="setToNow()">Use Now</button>
+  </div>
+
+  <!-- Shift selector -->
+  <div class="shift-section">
+    <div class="shift-label-row">Shift Duration</div>
+    <div class="shift-btns">
+      <button class="shift-btn" id="shift8"  onclick="selectShift(480,  this)">8 Hours</button>
+      <button class="shift-btn" id="shift10" onclick="selectShift(600,  this)">10 Hours</button>
+      <div class="shift-other-wrap">
+        <input class="shift-other-inp" id="shiftOtherInp" type="number" min="1" max="24" step="0.5"
+               placeholder="Other (hrs)"
+               oninput="selectOtherShift(this)"
+               onfocus="selectOtherShift(this)"/>
+      </div>
+    </div>
+    <div class="shift-cap-info" id="shiftCapInfo"></div>
+    <div class="progress-wrap" id="progressWrap" style="display:none">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width:0%"></div>
+      </div>
+    </div>
   </div>
 
   <!-- Counter -->
@@ -553,11 +253,10 @@
   </div>
 
   <div class="meeting-row">
-    <input class="meeting-input" id="meetingMins" type="number" min="1" max="480" placeholder="Minutes..." />
+    <input class="meeting-input" id="meetingMins" type="number" min="1" max="480" placeholder="Minutes..."/>
     <button class="btn-meeting" onclick="deductMeeting()">📅 Meeting</button>
   </div>
 
-  <!-- Event log -->
   <div class="log-section">
     <div class="log-header">
       <span class="section-label">Event Log</span>
@@ -568,221 +267,254 @@
     </div>
   </div>
 
-  <!-- Reset -->
   <div class="reset-row">
     <button class="reset-btn" onclick="confirmReset()">↺ Reset Day</button>
   </div>
 
-  <!-- Stats -->
   <div class="stats-row">
-    <div class="stat-item">
-      <div class="stat-value" id="stat-elapsed">--</div>
-      <div class="stat-label">Time Elapsed</div>
-    </div>
+    <div class="stat-item"><div class="stat-value" id="stat-elapsed">--</div><div class="stat-label">Time Elapsed</div></div>
     <div class="stat-divider"></div>
-    <div class="stat-item">
-      <div class="stat-value" id="stat-deducted">0</div>
-      <div class="stat-label">Mins Deducted</div>
-    </div>
+    <div class="stat-item"><div class="stat-value" id="stat-deducted">0</div><div class="stat-label">Mins Deducted</div></div>
     <div class="stat-divider"></div>
-    <div class="stat-item">
-      <div class="stat-value" id="stat-events">0</div>
-      <div class="stat-label">Events</div>
-    </div>
+    <div class="stat-item"><div class="stat-value" id="stat-cap">--</div><div class="stat-label">Max Productive</div></div>
   </div>
 </div>
 
-<!-- Confirm dialog -->
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
     <div class="confirm-icon">🔄</div>
     <div class="confirm-title">Reset the day?</div>
-    <div class="confirm-msg">This will clear your start time and all logged events. This cannot be undone.</div>
+    <div class="confirm-msg">This will clear your start time, shift, and all logged events. This cannot be undone.</div>
     <div class="confirm-btns">
       <button class="confirm-cancel" onclick="closeConfirm()">Cancel</button>
-      <button class="confirm-ok"     onclick="doReset()">Yes, Reset</button>
+      <button class="confirm-ok" onclick="doReset()">Yes, Reset</button>
     </div>
   </div>
 </div>
-
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-  const KEY      = 'prodTracker_v10';
-  const THEME_KEY = 'prodTracker_theme';
-  const COOKIE_DAYS = 7;
+  const CURRENT_KEY  = 'prodTracker_v8';
+  const FALLBACK_KEYS = ['prodTracker_v8','prodTracker_v2','prodTracker_v1'];
+  const THEME_KEY    = 'prodTracker_theme';
+  const COOKIE_DAYS  = 7;
 
-  let events = [];
-  let nextId  = 1;
+  let events      = [];
+  let nextId      = 1;
+  let shiftMins   = null;   // null = no shift selected
+  let shiftDoneNotified = false;
 
-  // ══════════════════════════════════════════════
-  //  THEME
-  // ══════════════════════════════════════════════
-  function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    const isDark = theme === 'dark';
-    document.getElementById('themeIcon').textContent  = isDark ? '☀️' : '🌙';
-    document.getElementById('themeLabel').textContent = isDark ? 'Light' : 'Dark';
+  // ══ THEME ══════════════════════════════════════════════════
+  function applyTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    document.getElementById('themeIcon').textContent  = t==='dark' ? '☀️' : '🌙';
+    document.getElementById('themeLabel').textContent = t==='dark' ? 'Light' : 'Dark';
   }
-
   function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme');
-    const next    = current === 'dark' ? 'light' : 'dark';
+    const next = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
     applyTheme(next);
-    try { localStorage.setItem(THEME_KEY, next); } catch(e) {}
-    try {
-      const exp = new Date(Date.now() + COOKIE_DAYS * 864e5).toUTCString();
-      document.cookie = THEME_KEY + '=' + next + '; expires=' + exp + '; path=/; SameSite=Lax';
-    } catch(e) {}
+    try{localStorage.setItem(THEME_KEY,next);}catch(e){}
+    try{const exp=new Date(Date.now()+COOKIE_DAYS*864e5).toUTCString();document.cookie=THEME_KEY+'='+next+'; expires='+exp+'; path=/; SameSite=Lax';}catch(e){}
   }
-
   function loadTheme() {
-    let theme = null;
-    try { theme = localStorage.getItem(THEME_KEY); } catch(e) {}
-    if (!theme) {
-      try {
-        const m = document.cookie.match('(?:^|;)\s*' + THEME_KEY + '=([^;]+)');
-        if (m) theme = m[1];
-      } catch(e) {}
-    }
-    // Fall back to system preference
-    if (!theme) theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    applyTheme(theme);
+    let t=null;
+    try{t=localStorage.getItem(THEME_KEY);}catch(e){}
+    if(!t){try{const m=document.cookie.match('(?:^|;)\s*'+THEME_KEY+'=([^;]+)');if(m)t=m[1];}catch(e){}}
+    if(!t) t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+    applyTheme(t);
   }
 
-  // ══════════════════════════════════════════════
-  //  STORAGE
-  // ══════════════════════════════════════════════
-  function writeLS(json) { try { localStorage.setItem(KEY, json); return true; } catch(e) { return false; } }
-  function readLS()       { try { return localStorage.getItem(KEY); } catch(e) { return null; } }
+  // ══ STORAGE ════════════════════════════════════════════════
+  function lsGet(k)    {try{return localStorage.getItem(k);}catch(e){return null;}}
+  function lsSet(k,v)  {try{localStorage.setItem(k,v);return true;}catch(e){return false;}}
+  function lsDel(k)    {try{localStorage.removeItem(k);}catch(e){}}
+  function ckGet(k)    {try{const m=document.cookie.match('(?:^|;)\s*'+k+'=([^;]+)');return m?decodeURIComponent(m[1]):null;}catch(e){return null;}}
+  function ckSet(k,v)  {try{const exp=new Date(Date.now()+COOKIE_DAYS*864e5).toUTCString();document.cookie=k+'='+encodeURIComponent(v)+'; expires='+exp+'; path=/; SameSite=Lax';return true;}catch(e){return false;}}
+  function ckDel(k)    {try{document.cookie=k+'=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax';}catch(e){}}
 
-  function writeCookie(json) {
-    try {
-      const exp = new Date(Date.now() + COOKIE_DAYS * 864e5).toUTCString();
-      document.cookie = KEY + '=' + encodeURIComponent(json) + '; expires=' + exp + '; path=/; SameSite=Lax';
-      return true;
-    } catch(e) { return false; }
+  function setBar(type,msg){
+    document.getElementById('storageBar').className='storage-bar'+(type?' '+type:'');
+    document.getElementById('storageMsg').textContent=msg;
   }
-  function readCookie() {
-    try {
-      const m = document.cookie.match('(?:^|;)\s*' + KEY + '=([^;]+)');
-      return m ? decodeURIComponent(m[1]) : null;
-    } catch(e) { return null; }
-  }
-  function clearStorage() {
-    try { localStorage.removeItem(KEY); } catch(e) {}
-    try { document.cookie = KEY + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax'; } catch(e) {}
-  }
-
-  function setBar(type, msg) {
-    const bar = document.getElementById('storageBar');
-    bar.className = 'storage-bar' + (type ? ' ' + type : '');
-    document.getElementById('storageMsg').textContent = msg;
-  }
-
   function saveState() {
-    const state = {
-      startTime: document.getElementById('startTime').value,
-      events, nextId, ts: Date.now()
-    };
-    const json = JSON.stringify(state);
-    const ls   = writeLS(json);
-    const ck   = writeCookie(json);
-    if (ls || ck) {
-      const via = ls && ck ? 'localStorage + cookie' : ls ? 'localStorage' : 'cookie';
-      setBar('saved', '✓ Saved · ' + events.length + ' event' + (events.length !== 1 ? 's' : '') + ' · ' + via);
-    } else {
-      setBar('error', '✗ Could not save — check browser settings');
-    }
+    const payload=JSON.stringify({startTime:document.getElementById('startTime').value,events,nextId,shiftMins,ts:Date.now()});
+    const ls=lsSet(CURRENT_KEY,payload), ck=ckSet(CURRENT_KEY,payload);
+    if(ls||ck){const via=ls&&ck?'localStorage + cookie':ls?'localStorage':'cookie';setBar('saved','✓ Saved · '+events.length+' event'+(events.length!==1?'s':'')+' · '+via);}
+    else setBar('error','✗ Could not save — check browser settings');
   }
-
   function loadState() {
-    let raw = readLS(), src = 'localStorage';
-    if (!raw) { raw = readCookie(); src = 'cookie'; }
-    if (!raw) { setBar('', 'No saved session'); return false; }
-    try {
-      const s = JSON.parse(raw);
-      if (s.startTime)            document.getElementById('startTime').value = s.startTime;
-      if (Array.isArray(s.events)) events = s.events;
-      if (s.nextId)               nextId = s.nextId;
-      const ago = s.ts ? ' · saved ' + timeSince(s.ts) : '';
-      setBar('restored', '↩ Session restored' + ago + ' (' + src + ')');
-      return true;
-    } catch(e) {
-      clearStorage();
-      setBar('error', 'Saved data corrupted — starting fresh');
-      return false;
+    for(const key of FALLBACK_KEYS){
+      let raw=lsGet(key)||ckGet(key);
+      if(!raw) continue;
+      try{
+        const s=JSON.parse(raw);
+        if(!s||typeof s!=='object') continue;
+        if(s.startTime) document.getElementById('startTime').value=s.startTime;
+        if(Array.isArray(s.events)) events=s.events;
+        if(s.nextId)    nextId=s.nextId;
+        if(s.shiftMins) shiftMins=s.shiftMins;
+        const ago=s.ts?' · saved '+timeSince(s.ts):'';
+        const src=key!==CURRENT_KEY?' (migrated from '+key+')':'';
+        setBar('restored','↩ Session restored'+ago+src);
+        if(key!==CURRENT_KEY) saveState();
+        return true;
+      }catch(e){continue;}
     }
+    setBar('','No saved session');
+    return false;
+  }
+  function clearAllStorage(){FALLBACK_KEYS.forEach(k=>{lsDel(k);ckDel(k);});}
+  function timeSince(ts){const s=Math.floor((Date.now()-ts)/1000);return s<60?s+'s ago':s<3600?Math.floor(s/60)+'m ago':Math.floor(s/3600)+'h ago';}
+
+  // ══ SHIFT SELECTION ════════════════════════════════════════
+  function clearShiftButtons() {
+    document.querySelectorAll('.shift-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('shiftOtherInp').classList.remove('active');
   }
 
-  function timeSince(ts) {
-    const s = Math.floor((Date.now() - ts) / 1000);
-    if (s < 60) return s + 's ago';
-    if (s < 3600) return Math.floor(s / 60) + 'm ago';
-    return Math.floor(s / 3600) + 'h ago';
+  function selectShift(mins, btn) {
+    shiftMins = mins;
+    shiftDoneNotified = false;
+    clearShiftButtons();
+    if(btn) btn.classList.add('active');
+    document.getElementById('shiftOtherInp').value = '';
+    updateShiftInfo();
+    saveState();
+    tick();
   }
 
-  // ══════════════════════════════════════════════
-  //  TIMER
-  // ══════════════════════════════════════════════
-  function getStartSec() {
-    const v = document.getElementById('startTime').value;
-    if (!v) return null;
-    const [h, m] = v.split(':').map(Number);
-    return h * 3600 + m * 60;
+  function selectOtherShift(inp) {
+    const hrs = parseFloat(inp.value);
+    if(!hrs || hrs <= 0) {
+      shiftMins = null;
+      clearShiftButtons();
+      inp.classList.remove('active');
+    } else {
+      shiftMins = Math.round(hrs * 60);
+      shiftDoneNotified = false;
+      clearShiftButtons();
+      inp.classList.add('active');
+    }
+    updateShiftInfo();
+    saveState();
+    tick();
   }
-  function nowSec() { const n = new Date(); return n.getHours()*3600 + n.getMinutes()*60 + n.getSeconds(); }
-  function fmt(sec) {
-    const neg = sec < 0, a = Math.abs(sec);
-    return (neg ? '-' : '') + String(Math.floor(a/60)).padStart(2,'0') + ':' + String(a%60).padStart(2,'0');
+
+  function restoreShiftUI() {
+    // Re-apply active state after a page load
+    clearShiftButtons();
+    if(shiftMins === 480) document.getElementById('shift8').classList.add('active');
+    else if(shiftMins === 600) document.getElementById('shift10').classList.add('active');
+    else if(shiftMins) {
+      const inp = document.getElementById('shiftOtherInp');
+      inp.value = (shiftMins/60).toString();
+      inp.classList.add('active');
+    }
+    updateShiftInfo();
   }
-  function fmtElapsed(sec) {
-    const a = Math.abs(sec), h = Math.floor(a/3600), m = Math.floor((a%3600)/60), s = String(a%60).padStart(2,'0');
-    return h > 0 ? h+':'+String(m).padStart(2,'0')+':'+s : m+':'+s;
+
+  function updateShiftInfo() {
+    const info = document.getElementById('shiftCapInfo');
+    const wrap = document.getElementById('progressWrap');
+    const capEl = document.getElementById('stat-cap');
+    if(!shiftMins) {
+      info.innerHTML = '';
+      wrap.style.display = 'none';
+      capEl.textContent = '--';
+      return;
+    }
+    const maxProd = shiftMins - Math.round(totalDed()/60);
+    info.innerHTML = 'Max productive time: <span>'+maxProd+' min</span>';
+    wrap.style.display = 'block';
+    capEl.textContent = maxProd;
   }
-  function totalDeducted() { return events.reduce((s,e) => s + e.minutes*60, 0); }
+
+  function updateProgress(elapsed) {
+    if(!shiftMins) return;
+    const pct = Math.min(100, Math.round((elapsed / shiftMins) * 100));
+    const fill = document.getElementById('progressFill');
+    fill.style.width = pct + '%';
+    fill.classList.toggle('done', pct >= 100);
+  }
+
+  // ══ TIMER ══════════════════════════════════════════════════
+  function getStartSec(){const v=document.getElementById('startTime').value;if(!v)return null;const[h,m]=v.split(':').map(Number);return h*3600+m*60;}
+  function nowSec(){const n=new Date();return n.getHours()*3600+n.getMinutes()*60+n.getSeconds();}
+  function fmt(sec){const neg=sec<0,a=Math.abs(sec);return(neg?'-':'')+String(Math.floor(a/60)).padStart(2,'0')+':'+String(a%60).padStart(2,'0');}
+  function fmtElapsed(s){const a=Math.abs(s),h=Math.floor(a/3600),m=Math.floor((a%3600)/60),ss=String(a%60).padStart(2,'0');return h>0?h+':'+String(m).padStart(2,'0')+':'+ss:m+':'+ss;}
+  function totalDed(){return events.reduce((s,e)=>s+e.minutes*60,0);}
 
   function tick() {
-    const start = getStartSec();
-    const cel = document.getElementById('counter');
-    const sub = document.getElementById('counter-sub');
-    const eel = document.getElementById('stat-elapsed');
-    if (start === null) {
-      cel.textContent = '--:--'; sub.textContent = 'Set your start time above';
-      cel.classList.remove('negative'); return;
+    const start=getStartSec(), cel=document.getElementById('counter'),
+          sub=document.getElementById('counter-sub'), eel=document.getElementById('stat-elapsed');
+
+    if(!start){
+      cel.textContent='--:--'; sub.textContent='Set your start time above';
+      cel.classList.remove('negative','done'); return;
     }
-    const elapsed = nowSec() - start;
-    if (elapsed < 0) {
-      cel.textContent = '--:--'; cel.classList.remove('negative');
-      sub.textContent = '⏳ Start time is in the future'; eel.textContent = '--'; return;
+
+    const elapsed    = nowSec() - start;
+    const deducted   = totalDed();
+
+    if(elapsed < 0){
+      cel.textContent='--:--'; cel.classList.remove('negative','done');
+      sub.textContent='⏳ Start time is in the future'; eel.textContent='--'; return;
     }
-    const prod = elapsed - totalDeducted();
-    cel.textContent = fmt(prod);
-    cel.classList.toggle('negative', prod < 0);
-    sub.textContent = prod < 0 ? '⚠️ More time deducted than elapsed!'
-                               : 'Since ' + document.getElementById('startTime').value;
+
     eel.textContent = fmtElapsed(elapsed);
+    updateProgress(elapsed / 60);  // elapsed in minutes
+
+    if(shiftMins !== null) {
+      // Cap elapsed at the shift duration
+      const effectiveElapsed = Math.min(elapsed, shiftMins * 60);
+      const prod = effectiveElapsed - deducted;
+      const maxProd = shiftMins * 60 - deducted;
+      const isComplete = elapsed >= shiftMins * 60;
+
+      cel.textContent = fmt(Math.max(0, prod));  // never show below 0 when capped
+      cel.classList.remove('negative','done');
+
+      if(isComplete) {
+        cel.classList.add('done');
+        sub.textContent = '✅ Shift complete! Great work today.';
+        if(!shiftDoneNotified){
+          showToast('🎉 Shift complete!');
+          shiftDoneNotified = true;
+        }
+      } else if(prod < 0) {
+        cel.classList.add('negative');
+        sub.textContent = '⚠️ More time deducted than elapsed!';
+      } else {
+        sub.textContent = 'Since ' + document.getElementById('startTime').value;
+      }
+
+      updateShiftInfo();
+    } else {
+      // No shift — original unlimited behaviour
+      const prod = elapsed - deducted;
+      cel.textContent = fmt(prod);
+      cel.classList.remove('done');
+      cel.classList.toggle('negative', prod < 0);
+      sub.textContent = prod < 0 ? '⚠️ More time deducted than elapsed!'
+                                 : 'Since ' + document.getElementById('startTime').value;
+    }
   }
 
   function updateStats() {
-    document.getElementById('stat-deducted').textContent = Math.round(totalDeducted()/60);
+    document.getElementById('stat-deducted').textContent = Math.round(totalDed()/60);
     document.getElementById('stat-events').textContent   = events.length;
+    updateShiftInfo();
   }
 
-  // ══════════════════════════════════════════════
-  //  LOG
-  // ══════════════════════════════════════════════
+  // ══ LOG ════════════════════════════════════════════════════
   function renderLog() {
-    const list = document.getElementById('logList');
-    const empty = document.getElementById('logEmpty');
-    list.querySelectorAll('.log-item').forEach(el => el.remove());
-    if (!events.length) { empty.style.display = 'block'; return; }
-    empty.style.display = 'none';
-    [...events].reverse().forEach(ev => {
-      const d = document.createElement('div');
-      d.className = 'log-item'; d.id = 'event-' + ev.id;
-      d.innerHTML = `<div class="log-item-left">
-        <div class="log-item-icon">${ev.icon}</div>
+    const list=document.getElementById('logList'),empty=document.getElementById('logEmpty');
+    list.querySelectorAll('.log-item').forEach(el=>el.remove());
+    if(!events.length){empty.style.display='block';return;}
+    empty.style.display='none';
+    [...events].reverse().forEach(ev=>{
+      const d=document.createElement('div');d.className='log-item';d.id='event-'+ev.id;
+      d.innerHTML=`<div class="log-item-left"><div class="log-item-icon">${ev.icon}</div>
         <div><div class="log-item-label">${ev.label}</div>
         <div class="log-item-mins">−${ev.minutes} minute${ev.minutes!==1?'s':''}</div></div></div>
         <button class="log-delete-btn" onclick="removeEvent(${ev.id})" title="Remove">✕</button>`;
@@ -790,72 +522,45 @@
     });
   }
 
-  // ══════════════════════════════════════════════
-  //  ACTIONS
-  // ══════════════════════════════════════════════
-  function deduct(minutes, label, icon) {
-    events.push({ id: nextId++, minutes, label, icon });
-    renderLog(); updateStats(); saveState();
-    showToast('−' + minutes + ' min  ·  ' + icon + ' ' + label); tick();
+  // ══ ACTIONS ════════════════════════════════════════════════
+  function deduct(mins,label,icon){events.push({id:nextId++,minutes:mins,label,icon});renderLog();updateStats();saveState();showToast('−'+mins+' min  ·  '+icon+' '+label);tick();}
+  function deductMeeting(){
+    const inp=document.getElementById('meetingMins'),m=parseInt(inp.value,10);
+    if(!m||m<=0){showToast('⚠️ Enter a valid number of minutes');return;}
+    if(m>480){showToast('⚠️ Maximum is 480 minutes');return;}
+    deduct(m,'Meeting ('+m+' min)','📅');inp.value='';
   }
-  function deductMeeting() {
-    const inp = document.getElementById('meetingMins');
-    const m   = parseInt(inp.value, 10);
-    if (!m || m <= 0) { showToast('⚠️ Enter a valid number of minutes'); return; }
-    if (m > 480)      { showToast('⚠️ Maximum is 480 minutes'); return; }
-    deduct(m, 'Meeting (' + m + ' min)', '📅');
-    inp.value = '';
+  function removeEvent(id){
+    const ev=events.find(e=>e.id===id);if(!ev)return;
+    const el=document.getElementById('event-'+id);
+    if(el){el.style.transition='opacity .2s,transform .2s';el.style.opacity='0';el.style.transform='translateX(10px)';
+      setTimeout(()=>{events=events.filter(e=>e.id!==id);renderLog();updateStats();saveState();tick();},200);}
+    showToast('↩️ Removed: '+ev.icon+' '+ev.label);
   }
-  function removeEvent(id) {
-    const ev = events.find(e => e.id === id);
-    if (!ev) return;
-    const el = document.getElementById('event-' + id);
-    if (el) {
-      el.style.transition = 'opacity 0.2s, transform 0.2s';
-      el.style.opacity = '0'; el.style.transform = 'translateX(10px)';
-      setTimeout(() => { events = events.filter(e => e.id !== id); renderLog(); updateStats(); saveState(); tick(); }, 200);
-    }
-    showToast('↩️ Removed: ' + ev.icon + ' ' + ev.label);
-  }
-  function clearAll() {
-    if (!events.length) return;
-    events = []; renderLog(); updateStats(); saveState(); tick();
-    showToast('🗑️ All events cleared');
-  }
-  function setToNow() {
-    const n = new Date();
-    document.getElementById('startTime').value =
-      String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
-    saveState(); tick(); showToast('⏱️ Start time set to now');
-  }
-  function confirmReset() { document.getElementById('confirmOverlay').classList.add('active'); }
-  function closeConfirm()  { document.getElementById('confirmOverlay').classList.remove('active'); }
-  function doReset() {
-    closeConfirm(); events = []; nextId = 1;
-    document.getElementById('startTime').value = '08:00';
-    renderLog(); updateStats(); clearStorage(); setBar('','No saved session'); tick();
+  function clearAll(){if(!events.length)return;events=[];renderLog();updateStats();saveState();tick();showToast('🗑️ All events cleared');}
+  function setToNow(){const n=new Date();document.getElementById('startTime').value=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');saveState();tick();showToast('⏱️ Start time set to now');}
+  function confirmReset(){document.getElementById('confirmOverlay').classList.add('active');}
+  function closeConfirm(){document.getElementById('confirmOverlay').classList.remove('active');}
+  function doReset(){
+    closeConfirm();events=[];nextId=1;shiftMins=null;shiftDoneNotified=false;
+    document.getElementById('startTime').value='08:00';
+    clearShiftButtons();document.getElementById('shiftOtherInp').value='';
+    updateShiftInfo();renderLog();updateStats();clearAllStorage();setBar('','No saved session');tick();
     showToast('🔄 Day reset — fresh start!');
   }
-  document.getElementById('confirmOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeConfirm(); });
+  document.getElementById('confirmOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeConfirm();});
+  function showToast(msg){const c=document.getElementById('toastContainer'),t=document.createElement('div');t.className='toast';t.textContent=msg;c.appendChild(t);setTimeout(()=>t.remove(),2300);}
 
-  function showToast(msg) {
-    const c = document.getElementById('toastContainer');
-    const t = document.createElement('div');
-    t.className = 'toast'; t.textContent = msg;
-    c.appendChild(t); setTimeout(() => t.remove(), 2300);
-  }
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveState();});
+  window.addEventListener('beforeunload',saveState);
+  document.getElementById('meetingMins').addEventListener('keydown',e=>{if(e.key==='Enter')deductMeeting();});
+  document.getElementById('shiftOtherInp').addEventListener('keydown',e=>{if(e.key==='Enter')e.target.blur();});
+  document.getElementById('startTime').addEventListener('change',()=>{saveState();tick();});
 
-  // Safety-net saves
-  document.addEventListener('visibilitychange', () => { if(document.visibilityState==='hidden') saveState(); });
-  window.addEventListener('beforeunload', saveState);
-  document.getElementById('meetingMins').addEventListener('keydown', e => { if(e.key==='Enter') deductMeeting(); });
-  document.getElementById('startTime').addEventListener('change', () => { saveState(); tick(); });
-
-  // ══════════════════════════════════════════════
-  //  BOOT
-  // ══════════════════════════════════════════════
+  // ══ BOOT ═══════════════════════════════════════════════════
   loadTheme();
   loadState();
+  restoreShiftUI();
   renderLog();
   updateStats();
   tick();

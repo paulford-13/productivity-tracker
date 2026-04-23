@@ -502,7 +502,7 @@
 
   function updateStats() {
     document.getElementById('stat-deducted').textContent = Math.round(totalDed()/60);
-    document.getElementById('stat-events').textContent   = events.length;
+    const se=document.getElementById('stat-events'); if(se) se.textContent=events.length;
     updateShiftInfo();
   }
 

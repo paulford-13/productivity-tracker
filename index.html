@@ -246,6 +246,22 @@
   <div class="counter-sub" id="counter-sub">Set your start time above</div>
 
   <div class="divider"></div>
+  <div class="section-label">Schedule Events</div>
+  <div class="meeting-row" style="margin-bottom:10px;">
+    <input class="time-input" type="time" id="schedTime" style="flex:1; width:100%; min-width:0; padding:14px 10px; font-size: 16px;" />
+    <input class="meeting-input" id="schedMins" type="number" min="1" max="480" placeholder="Minutes..." style="flex:1;" />
+  </div>
+  <div class="meeting-row" style="margin-bottom:12px;">
+    <select class="meeting-input" id="schedType" style="flex:1; appearance:none;">
+      <option value="Break|☕">Break</option>
+      <option value="Lunch|🍱">Lunch</option>
+      <option value="Meeting|👥">Meeting</option>
+    </select>
+    <button class="btn-meeting" onclick="addSchedEvent()" style="padding-left:24px; padding-right:24px;">Add Event</button>
+  </div>
+  <div id="schedList" class="log-list" style="margin-bottom:20px; max-height:none; background:transparent; padding:0; border:none; display:none;"></div>
+
+  <div class="divider"></div>
   <div class="section-label">Deduct Time</div>
 
   <div class="btn-grid">
@@ -308,6 +324,7 @@
   const COOKIE_DAYS  = 7;
 
   let events      = [];
+  let schedEvents = [];
   let nextId      = 1;
   let shiftMins   = null;   // null = no shift selected
   let shiftDoneNotified = false;
@@ -345,7 +362,7 @@
     document.getElementById('storageMsg').textContent=msg;
   }
   function saveState() {
-    const payload=JSON.stringify({startTime:document.getElementById('startTime').value,events,nextId,shiftMins,ts:Date.now()});
+    const payload=JSON.stringify({startTime:document.getElementById('startTime').value,events,schedEvents,nextId,shiftMins,ts:Date.now()});
     const ls=lsSet(CURRENT_KEY,payload), ck=ckSet(CURRENT_KEY,payload);
     if(ls||ck){const via=ls&&ck?'localStorage + cookie':ls?'localStorage':'cookie';setBar('saved','✓ Saved · '+events.length+' event'+(events.length!==1?'s':'')+' · '+via);}
     else setBar('error','✗ Could not save — check browser settings');
@@ -359,6 +376,7 @@
         if(!s||typeof s!=='object') continue;
         if(s.startTime) document.getElementById('startTime').value=s.startTime;
         if(Array.isArray(s.events)) events=s.events;
+        if(Array.isArray(s.schedEvents)) schedEvents=s.schedEvents;
         if(s.nextId)    nextId=s.nextId;
         if(s.shiftMins) shiftMins=s.shiftMins;
         const ago=s.ts?' · saved '+timeSince(s.ts):'';
@@ -461,50 +479,83 @@
       cel.classList.remove('negative','done'); return;
     }
 
-    const elapsed    = nowSec() - start;
-    const deducted   = totalDed();
+    const nSec = nowSec();
+    let elapsed = nSec - start;
 
     if(elapsed < 0){
       cel.textContent='--:--'; cel.classList.remove('negative','done');
       sub.textContent='⏳ Start time is in the future'; eel.textContent='--'; return;
     }
 
+    let activeSchedDeduct = 0;
+    let onBreakMessage = null;
+
+    schedEvents.forEach(ev => {
+        if(ev.logged) return;
+
+        const [h, m] = ev.time.split(':').map(Number);
+        const evStartSec = h * 3600 + m * 60;
+        const evEndSec = evStartSec + ev.minutes * 60;
+
+        if(nSec >= evEndSec) {
+            ev.logged = true;
+            deduct(ev.minutes, ev.label, ev.icon);
+            renderSchedList();
+            saveState();
+        } 
+        else if(nSec >= evStartSec && nSec < evEndSec) {
+            activeSchedDeduct += (nSec - evStartSec);
+            const hrs = Math.floor(evEndSec / 3600).toString().padStart(2, '0');
+            const mns = Math.floor((evEndSec % 3600) / 60).toString().padStart(2, '0');
+            onBreakMessage = `Currently on ${ev.label} until ${hrs}:${mns}`;
+        }
+        
+        if(nSec >= evStartSec - 30 && nSec < evStartSec && !ev.notified) {
+            ev.notified = true;
+            saveState();
+            if(window.Notification && Notification.permission === "granted") {
+                new Notification(`Upcoming ${ev.label}`, {
+                    body: `Your ${ev.minutes}-minute ${ev.label} starts in 30 seconds.`,
+                    icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACXklEQVR4nO1b3XmFMAiN/bqFWzqBE7ilc9intJQLBiKERD1v7TUknBzIf0ovno2pZWXHmg7pt9Papm2ulWgcLsGLEBejlo5jWBNhZkzi9LzJ7e1L+RsLMkwIONZ0zNtnozUOl0DZ3pfrJFwqzPV6TU9Ly3DKqCXiq6ZQSn+9DjFvtr1Ogapj3urzThVruLIrTmsVwJXP0CpBrYDsfG6wd4+XgNuhVYKKAGh8X+Kdz8AJWDXhkn4IjXpndyt7knAQKcDL+WzP0ia0JVFCkQAc86NAmhNOCYBDXU8xXwLMCaUh8jRGPKUPcXUoLNlNic8HrAJaOe8JST4gCaBmeaODCwVWAV6ybA2YwyhUrwXugg8C7hD7GGe5oBsFRJH9j4CI3pfs/FiAU4GpAlo5YwnzENiXsYhwywGjEPFLgEX8Uyu7noig8oCLAjgieoTrMIiJwGrogZQm8wBJWESR8d2qotKcPP9muSVG1Y9xSoDWmATUCVIkmimgFbSdc0qA13SYU0HEeiBsMUQdb0UgNAR6WG53sxyOwi8BcNe0pyxtCWqX+FVAdAOi8RIA/7hzHuBOiV4F4H/cUQVnZ4SvArgfJMvXEVA64iOnwtOaJs/rrhHgLlWyCrhDLrh0PyBj1FCQnm6fEjCtaYKGRiEBbq2V7hMXFZALj+J8Rm5v6aqcaBj0ygcehybae4LiDRE4MvR4e6T2zrBqIgSN9pQT8Ha65sK0eiaIc0I0Cbgd7rfFYSUw07YmAtaZ21HzaCL0xUhNLrF+MfK+GbpSGOLRr8YwHvlukMJjX45y6PHt8OPxA+FjF4SZyVIQAAAAAElFTkSuQmCC'
+                });
+            }
+        }
+    });
+
+    const deducted = totalDed() + activeSchedDeduct;
     eel.textContent = fmtElapsed(elapsed);
-    updateProgress(elapsed / 60);  // elapsed in minutes
+    updateProgress(elapsed / 60);
+
+    let defaultSub = 'Since ' + document.getElementById('startTime').value;
 
     if(shiftMins !== null) {
-      // Cap elapsed at the shift duration
       const effectiveElapsed = Math.min(elapsed, shiftMins * 60);
       const prod = effectiveElapsed - deducted;
-      const maxProd = shiftMins * 60 - deducted;
       const isComplete = elapsed >= shiftMins * 60;
 
-      cel.textContent = fmt(Math.max(0, prod));  // never show below 0 when capped
+      cel.textContent = fmt(Math.max(0, prod));
       cel.classList.remove('negative','done');
 
       if(isComplete) {
         cel.classList.add('done');
-        sub.textContent = '✅ Shift complete! Great work today.';
+        sub.textContent = onBreakMessage || '✅ Shift complete! Great work today.';
         if(!shiftDoneNotified){
           showToast('🎉 Shift complete!');
           shiftDoneNotified = true;
         }
       } else if(prod < 0) {
         cel.classList.add('negative');
-        sub.textContent = '⚠️ More time deducted than elapsed!';
+        sub.textContent = onBreakMessage || '⚠️ More time deducted than elapsed!';
       } else {
-        sub.textContent = 'Since ' + document.getElementById('startTime').value;
+        sub.textContent = onBreakMessage || defaultSub;
       }
-
       updateShiftInfo();
     } else {
-      // No shift — original unlimited behaviour
       const prod = elapsed - deducted;
       cel.textContent = fmt(prod);
       cel.classList.remove('done');
       cel.classList.toggle('negative', prod < 0);
-      sub.textContent = prod < 0 ? '⚠️ More time deducted than elapsed!'
-                                 : 'Since ' + document.getElementById('startTime').value;
+      sub.textContent = onBreakMessage || (prod < 0 ? '⚠️ More time deducted than elapsed!' : defaultSub);
     }
   }
 
@@ -515,6 +566,74 @@
   }
 
   // ══ LOG ════════════════════════════════════════════════════
+  
+  function addSchedEvent() {
+    const time = document.getElementById('schedTime').value;
+    const mins = parseInt(document.getElementById('schedMins').value, 10);
+    const typeVal = document.getElementById('schedType').value;
+
+    if(!time || !mins || mins <= 0) {
+      showToast('⚠️ Please enter valid time and minutes');
+      return;
+    }
+
+    const [label, icon] = typeVal.split('|');
+
+    if (window.Notification && Notification.permission !== "granted" && Notification.permission !== "denied") {
+      Notification.requestPermission();
+    }
+
+    schedEvents.push({
+      id: nextId++,
+      time: time,
+      minutes: mins,
+      label: label,
+      icon: icon,
+      logged: false,
+      notified: false
+    });
+    
+    document.getElementById('schedTime').value = '';
+    document.getElementById('schedMins').value = '';
+    
+    renderSchedList();
+    saveState();
+    tick();
+  }
+
+  function removeSchedEvent(id) {
+    schedEvents = schedEvents.filter(e => e.id !== id);
+    renderSchedList();
+    saveState();
+    tick();
+  }
+
+  function renderSchedList() {
+    const c = document.getElementById('schedList');
+    c.innerHTML = '';
+    if (schedEvents.length === 0) {
+      c.style.display = 'none';
+      return;
+    }
+    c.style.display = 'block';
+    
+    const sorted = [...schedEvents].sort((a,b) => a.time.localeCompare(b.time));
+    
+    sorted.forEach(ev => {
+      const d = document.createElement('div');
+      d.className = 'log-item';
+      if(ev.logged) d.style.opacity = '0.5';
+      
+      let statusText = ev.logged ? 'Done' : 'Scheduled';
+      
+      d.innerHTML = `<div class="log-item-left"><div class="log-item-icon">${ev.icon}</div>
+        <div><div class="log-item-label">${ev.label} @ ${ev.time}</div>
+        <div class="log-item-mins">${ev.minutes} mins · ${statusText}</div></div></div>
+        <button class="log-delete-btn" onclick="removeSchedEvent(${ev.id})" title="Remove">✕</button>`;
+      c.appendChild(d);
+    });
+  }
+
   function renderLog() {
     const list=document.getElementById('logList'),empty=document.getElementById('logEmpty');
     list.querySelectorAll('.log-item').forEach(el=>el.remove());
@@ -556,7 +675,7 @@
   function confirmReset(){document.getElementById('confirmOverlay').classList.add('active');}
   function closeConfirm(){document.getElementById('confirmOverlay').classList.remove('active');}
   function doReset(){
-    closeConfirm();events=[];nextId=1;shiftMins=null;shiftDoneNotified=false;
+    closeConfirm();events=[];schedEvents=[];nextId=1;renderSchedList();shiftMins=null;shiftDoneNotified=false;
     document.getElementById('startTime').value='08:00';
     clearShiftButtons();document.getElementById('shiftOtherInp').value='';
     updateShiftInfo();renderLog();updateStats();clearAllStorage();setBar('','No saved session');tick();
@@ -577,6 +696,7 @@
   loadState();
   restoreShiftUI();
   renderLog();
+  renderSchedList();
   updateStats();
   tick();
   setInterval(tick, 1000);

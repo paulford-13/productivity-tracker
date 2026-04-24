@@ -149,6 +149,7 @@
     .btn-meeting{background:var(--bM-bg);color:var(--bM-col);border:1px solid var(--bM-bdr);padding:14px 20px;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;transition:all .18s ease;white-space:nowrap;}
     .btn-meeting:hover{background:var(--bM-hov);}
     .btn-meeting:active{transform:scale(.96);}
+    .call-hint{font-size:10px;color:var(--muted);line-height:1.5;margin-top:6px;margin-bottom:2px;padding:0 2px;letter-spacing:0.2px;text-align:left;}
     .log-section{margin-top:24px;}
     .log-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
     .log-header .section-label{margin-bottom:0;}
@@ -257,6 +258,12 @@
     <input class="meeting-input" id="meetingMins" type="number" min="1" max="480" placeholder="Minutes..."/>
     <button class="btn-meeting" onclick="deductMeeting()">📅 Meeting</button>
   </div>
+
+  <div class="meeting-row" style="margin-top:10px;">
+    <input class="meeting-input" id="callMins" type="number" min="1" max="480" placeholder="Minutes..."/>
+    <button class="btn-meeting" onclick="deductCall()">📞 Inbound Call</button>
+  </div>
+  <div class="call-hint">Enter call duration from Talkdesk. You can find this after the call, or in your &ldquo;Activities&rdquo; tab. Recent calls may take a few minutes to update.</div>
 
   <div class="log-section">
     <div class="log-header">
@@ -531,6 +538,12 @@
     if(m>480){showToast('⚠️ Maximum is 480 minutes');return;}
     deduct(m,'Meeting ('+m+' min)','📅');inp.value='';
   }
+  function deductCall(){
+    const inp=document.getElementById('callMins'),m=parseInt(inp.value,10);
+    if(!m||m<=0){showToast('⚠️ Enter a valid number of minutes');return;}
+    if(m>480){showToast('⚠️ Maximum is 480 minutes');return;}
+    deduct(m,'Inbound Call ('+m+' min)','📞');inp.value='';
+  }
   function removeEvent(id){
     const ev=events.find(e=>e.id===id);if(!ev)return;
     const el=document.getElementById('event-'+id);
@@ -555,6 +568,7 @@
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveState();});
   window.addEventListener('beforeunload',saveState);
   document.getElementById('meetingMins').addEventListener('keydown',e=>{if(e.key==='Enter')deductMeeting();});
+  document.getElementById('callMins').addEventListener('keydown',e=>{if(e.key==='Enter')deductCall();});
   document.getElementById('shiftOtherInp').addEventListener('keydown',e=>{if(e.key==='Enter')e.target.blur();});
   document.getElementById('startTime').addEventListener('change',()=>{saveState();tick();});
 

@@ -8,71 +8,9 @@
   <style>
     :root { --orange:#FF8000; }
 
-    [data-theme="dark"] {
-      --bg-a:#1a0e00; --bg-b:#231200; --bg-c:#2e1800;
-      --card-bg:rgba(255,255,255,0.04); --card-bdr:rgba(255,128,0,0.2);
-      --card-shadow:0 24px 60px rgba(0,0,0,0.5),0 0 60px rgba(255,128,0,0.06);
-      --text:#ffffff; --muted:rgba(255,255,255,0.35); --faint:rgba(255,255,255,0.18);
-      --panel-bg:rgba(255,128,0,0.06); --panel-bdr:rgba(255,128,0,0.18);
-      --inp-bg:rgba(255,128,0,0.12); --inp-bdr:rgba(255,128,0,0.4); --inp-col:#FF8000;
-      --ctr-glow:0 0 50px rgba(255,128,0,0.5);
-      --neg:#ff4444; --neg-glow:0 0 40px rgba(255,68,68,0.5);
-      --done:#64d2a0; --done-glow:0 0 50px rgba(100,210,160,0.5);
-      --div:rgba(255,128,0,0.15); --sdiv:rgba(255,128,0,0.12);
-      --log-bg:rgba(255,128,0,0.05); --log-hov:rgba(255,128,0,0.10); --log-bdr:rgba(255,128,0,0.12); --log-min:rgba(255,128,0,0.5);
-      --b15-bg:rgba(255,128,0,0.15); --b15-hov:rgba(255,128,0,0.28); --b15-bdr:rgba(255,128,0,0.28); --b15-col:#FF8000;
-      --b10-bg:rgba(255,160,40,0.12); --b10-hov:rgba(255,160,40,0.24); --b10-bdr:rgba(255,160,40,0.25); --b10-col:#FFA028;
-      --bL-bg:rgba(255,200,80,0.12);  --bL-hov:rgba(255,200,80,0.24);  --bL-bdr:rgba(255,200,80,0.22);  --bL-col:#FFC850;
-      --bM-bg:rgba(255,100,0,0.15);   --bM-hov:rgba(255,100,0,0.28);   --bM-bdr:rgba(255,100,0,0.25);   --bM-col:#FF6400;
-      --mi-bg:rgba(255,100,0,0.08); --mi-bdr:rgba(255,100,0,0.25); --mi-col:#FF6400;
-      --rst-bg:rgba(255,80,80,0.08); --rst-bdr:rgba(255,80,80,0.3); --rst-col:rgba(255,110,110,0.7); --rst-hov:rgba(255,80,80,0.18);
-      --del-bg:rgba(255,80,80,0.10); --del-bdr:rgba(255,80,80,0.2); --del-col:rgba(255,80,80,0.55);
-      --clr:rgba(255,80,80,0.45);
-      --toast-bg:rgba(40,20,0,0.9); --toast-bdr:rgba(255,128,0,0.35); --toast-col:#FFB060;
-      --dlg-bg:#1e1000; --dlg-bdr:rgba(255,128,0,0.3);
-      --scroll:rgba(255,128,0,0.25);
-      --sok-c:rgba(100,210,160,0.7); --sok-b:rgba(100,210,160,0.2); --sok-bg:rgba(100,210,160,0.05);
-      --srs-c:rgba(255,165,0,0.9);   --srs-b:rgba(255,165,0,0.3);   --srs-bg:rgba(255,165,0,0.07);
-      --ser-c:rgba(255,90,90,0.7);   --ser-b:rgba(255,90,90,0.2);   --ser-bg:rgba(255,90,90,0.05);
-      --sdf-c:rgba(255,255,255,0.25);--sdf-b:rgba(255,255,255,0.06);--sdf-bg:rgba(255,255,255,0.03);
-      --tgl-bg:rgba(255,128,0,0.12); --tgl-bdr:rgba(255,128,0,0.3); --tgl-col:rgba(255,128,0,0.7);
-      --shift-sel-bg:rgba(255,128,0,0.25); --shift-sel-bdr:rgba(255,128,0,0.6); --shift-sel-col:#FF8000;
-      --shift-bg:rgba(255,128,0,0.08); --shift-bdr:rgba(255,128,0,0.2); --shift-col:rgba(255,128,0,0.55);
-      --progress-bg:rgba(255,255,255,0.07); --progress-fill:rgba(255,128,0,0.6); --progress-done:rgba(100,210,160,0.7);
-    }
-
-    [data-theme="light"] {
-      --bg-a:#fff3e8; --bg-b:#ffe8cc; --bg-c:#ffddb5;
-      --card-bg:rgba(255,255,255,0.85); --card-bdr:rgba(255,128,0,0.25);
-      --card-shadow:0 24px 60px rgba(180,80,0,0.12),0 0 60px rgba(255,128,0,0.08);
-      --text:#1a0e00; --muted:rgba(80,40,0,0.55); --faint:rgba(80,40,0,0.3);
-      --panel-bg:rgba(255,128,0,0.07); --panel-bdr:rgba(255,128,0,0.22);
-      --inp-bg:rgba(255,128,0,0.08); --inp-bdr:rgba(255,128,0,0.45); --inp-col:#b35500;
-      --ctr-glow:0 0 40px rgba(255,128,0,0.2);
-      --neg:#cc2200; --neg-glow:0 0 30px rgba(200,50,0,0.25);
-      --done:#1a7a4a; --done-glow:0 0 30px rgba(26,122,74,0.2);
-      --div:rgba(255,128,0,0.18); --sdiv:rgba(255,128,0,0.15);
-      --log-bg:rgba(255,128,0,0.05); --log-hov:rgba(255,128,0,0.10); --log-bdr:rgba(255,128,0,0.15); --log-min:rgba(180,80,0,0.5);
-      --b15-bg:rgba(255,128,0,0.12); --b15-hov:rgba(255,128,0,0.22); --b15-bdr:rgba(255,128,0,0.3);  --b15-col:#cc5500;
-      --b10-bg:rgba(255,150,0,0.10); --b10-hov:rgba(255,150,0,0.20); --b10-bdr:rgba(255,150,0,0.28); --b10-col:#b36000;
-      --bL-bg:rgba(200,140,0,0.10);  --bL-hov:rgba(200,140,0,0.20);  --bL-bdr:rgba(200,140,0,0.25);  --bL-col:#8a6000;
-      --bM-bg:rgba(200,70,0,0.10);   --bM-hov:rgba(200,70,0,0.20);   --bM-bdr:rgba(200,70,0,0.25);   --bM-col:#aa3300;
-      --mi-bg:rgba(200,70,0,0.07); --mi-bdr:rgba(200,70,0,0.25); --mi-col:#aa3300;
-      --rst-bg:rgba(200,0,0,0.06); --rst-bdr:rgba(200,0,0,0.2); --rst-col:rgba(180,40,40,0.7); --rst-hov:rgba(200,0,0,0.12);
-      --del-bg:rgba(200,0,0,0.07); --del-bdr:rgba(200,0,0,0.18); --del-col:rgba(180,40,40,0.55);
-      --clr:rgba(180,40,40,0.5);
-      --toast-bg:rgba(255,245,235,0.97); --toast-bdr:rgba(255,128,0,0.4); --toast-col:#8a4400;
-      --dlg-bg:#fff8f0; --dlg-bdr:rgba(255,128,0,0.3);
-      --scroll:rgba(255,128,0,0.3);
-      --sok-c:rgba(0,140,80,0.8);    --sok-b:rgba(0,140,80,0.2);    --sok-bg:rgba(0,140,80,0.05);
-      --srs-c:rgba(180,90,0,0.9);    --srs-b:rgba(180,90,0,0.25);   --srs-bg:rgba(180,90,0,0.06);
-      --ser-c:rgba(180,0,0,0.7);     --ser-b:rgba(180,0,0,0.2);     --ser-bg:rgba(180,0,0,0.05);
-      --sdf-c:rgba(80,40,0,0.4);     --sdf-b:rgba(80,40,0,0.1);     --sdf-bg:rgba(80,40,0,0.03);
-      --tgl-bg:rgba(255,128,0,0.1);  --tgl-bdr:rgba(255,128,0,0.3); --tgl-col:#b35500;
-      --shift-sel-bg:rgba(255,128,0,0.18); --shift-sel-bdr:rgba(255,128,0,0.55); --shift-sel-col:#b35500;
-      --shift-bg:rgba(255,128,0,0.07); --shift-bdr:rgba(255,128,0,0.2); --shift-col:rgba(140,70,0,0.6);
-      --progress-bg:rgba(0,0,0,0.06); --progress-fill:rgba(255,128,0,0.5); --progress-done:rgba(26,122,74,0.6);
-    }
+    /* Colour vars are injected by applyColour() — see JS */
+    [data-theme="dark"]  { --text:#fff; --muted:rgba(255,255,255,.35); --faint:rgba(255,255,255,.18); --sdf-c:rgba(255,255,255,.25); --sdf-b:rgba(255,255,255,.06); --sdf-bg:rgba(255,255,255,.03); }
+    [data-theme="light"] { --text:#140a00; --muted:rgba(60,30,0,.55); --faint:rgba(60,30,0,.30); --sdf-c:rgba(60,30,0,.35); --sdf-b:rgba(60,30,0,.08); --sdf-bg:rgba(60,30,0,.02); }
 
     *{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(145deg,var(--bg-a) 0%,var(--bg-b) 50%,var(--bg-c) 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;color:var(--text);padding:32px 16px;transition:background .35s,color .35s;}
@@ -87,6 +25,16 @@
     .storage-bar.restored{color:var(--srs-c);border-color:var(--srs-b);background:var(--srs-bg);}
     .storage-bar.error{color:var(--ser-c);border-color:var(--ser-b);background:var(--ser-bg);}
     .storage-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
+
+    /* ── Hue picker ── */
+    .header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:10px;}
+    .theme-toggle{background:var(--tgl-bg);border:1px solid var(--tgl-bdr);color:var(--tgl-col);border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;}
+    .theme-toggle:hover{opacity:.8;transform:scale(1.08);}
+    .hue-wrap{display:flex;align-items:center;flex-shrink:0;}
+    .hue-track{width:80px;height:14px;border-radius:7px;background:linear-gradient(to right,hsl(0,80%,55%),hsl(30,80%,55%),hsl(60,80%,55%),hsl(90,80%,55%),hsl(120,80%,55%),hsl(150,80%,55%),hsl(180,80%,55%),hsl(210,80%,55%),hsl(240,80%,55%),hsl(270,80%,55%),hsl(300,80%,55%),hsl(330,80%,55%),hsl(360,80%,55%));padding:0;position:relative;}
+    .hue-slider{-webkit-appearance:none;appearance:none;width:100%;height:100%;background:transparent;cursor:pointer;border-radius:7px;outline:none;margin:0;}
+    .hue-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid rgba(0,0,0,.25);box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer;}
+    .hue-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid rgba(0,0,0,.25);box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer;}
 
     /* ── Start time ── */
     .start-time-section{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px;background:var(--panel-bg);border:1px solid var(--panel-bdr);border-radius:16px;padding:14px 18px;transition:background .35s,border-color .35s;}
@@ -163,7 +111,7 @@
     .log-item:hover{background:var(--log-hov);}
     @keyframes slide-in{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
     .log-item-left{display:flex;align-items:center;gap:10px;text-align:left;}
-    .log-item-icon{font-size:16px;line-height:1;}
+    .log-item-icon{font-size:16px;line-height:1;min-width:0;}
     .log-item-label{font-size:13px;font-weight:600;color:var(--text);}
     .log-item-mins{font-size:11px;color:var(--log-min);margin-top:2px;}
     .log-delete-btn{background:var(--del-bg);border:1px solid var(--del-bdr);color:var(--del-col);border-radius:8px;width:28px;height:28px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s;}
@@ -194,17 +142,65 @@
     .confirm-cancel:hover{opacity:.8;}
     .confirm-ok{flex:1;padding:12px;border-radius:12px;border:1px solid var(--rst-bdr);background:var(--rst-bg);color:var(--rst-col);font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;}
     .confirm-ok:hover{background:var(--rst-hov);}
+
+    .schedule-section{background:var(--panel-bg);border:1px solid var(--panel-bdr);border-radius:16px;padding:14px 18px;margin-top:16px;transition:background .35s,border-color .35s;}
+    .schedule-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;}
+    .schedule-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+    .schedule-chevron{font-size:10px;color:var(--muted);transition:transform .25s;display:inline-block;}
+    .schedule-chevron.open{transform:rotate(180deg);}
+    .schedule-body{overflow:hidden;max-height:0;transition:max-height .35s ease;}
+    .schedule-body.open{max-height:700px;}
+    .schedule-body-inner{padding-top:14px;}
+    .sched-type-row{display:flex;gap:6px;margin-bottom:10px;}
+    .sched-type-btn{flex:1;padding:7px 2px;border-radius:9px;border:1px solid var(--shift-bdr);background:var(--shift-bg);color:var(--shift-col);font-size:10px;font-weight:700;cursor:pointer;transition:all .18s;white-space:nowrap;}
+    .sched-type-btn:hover{border-color:var(--shift-sel-bdr);color:var(--shift-sel-col);}
+    .sched-type-btn.active{background:var(--shift-sel-bg);border-color:var(--shift-sel-bdr);color:var(--shift-sel-col);}
+    .schedule-add-row{display:flex;gap:8px;align-items:center;margin-bottom:12px;}
+    .sched-time-inp{background:var(--inp-bg);border:1px solid var(--inp-bdr);border-radius:10px;color:var(--inp-col);font-size:14px;font-weight:700;padding:9px 10px;outline:none;flex:1;text-align:center;transition:all .2s;}
+    .sched-time-inp:focus{border-color:var(--orange);}
+    .sched-time-inp::-webkit-calendar-picker-indicator{filter:invert(55%) sepia(90%) saturate(600%) hue-rotate(5deg);cursor:pointer;}
+    [data-theme="light"] .sched-time-inp::-webkit-calendar-picker-indicator{filter:invert(30%) sepia(80%) saturate(600%) hue-rotate(10deg);}
+    .sched-dur-inp{background:var(--inp-bg);border:1px solid var(--inp-bdr);border-radius:10px;color:var(--inp-col);font-size:13px;font-weight:700;padding:9px 8px;outline:none;width:70px;text-align:center;transition:all .2s;display:none;}
+    .sched-dur-inp.visible{display:block;}
+    .sched-dur-inp::placeholder{color:var(--faint);font-weight:400;font-size:10px;}
+    .sched-dur-inp:focus{border-color:var(--orange);}
+    .sched-add-btn{padding:9px 14px;border-radius:10px;border:1px solid var(--panel-bdr);background:var(--panel-bg);color:var(--orange);font-size:18px;cursor:pointer;transition:all .18s;flex-shrink:0;line-height:1;}
+    .sched-add-btn:hover{background:var(--inp-bg);}
+    .sched-add-btn:active{transform:scale(.94);}
+    .sched-list{display:flex;flex-direction:column;gap:6px;max-height:170px;overflow-y:auto;padding-right:2px;}
+    .sched-list::-webkit-scrollbar{width:4px;}
+    .sched-list::-webkit-scrollbar-thumb{background:var(--scroll);border-radius:4px;}
+    .sched-item{display:flex;align-items:center;justify-content:space-between;background:var(--log-bg);border:1px solid var(--log-bdr);border-radius:10px;padding:8px 12px;transition:border-color .3s,background .3s,opacity .3s;}
+    .sched-item.sched-active{border-color:rgba(255,200,80,0.55);background:rgba(255,200,80,0.09);}
+    .sched-item.sched-done{opacity:0.38;}
+    .sched-item-left{display:flex;align-items:center;gap:8px;text-align:left;}
+    .sched-item-icon{font-size:14px;line-height:1;min-width:0;}
+    .sched-item-label{font-size:12px;font-weight:600;color:var(--text);}
+    .sched-item-time{font-size:10px;color:var(--log-min);margin-top:2px;font-variant-numeric:tabular-nums;}
+    .sched-del-btn{background:var(--del-bg);border:1px solid var(--del-bdr);color:var(--del-col);border-radius:6px;width:24px;height:24px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .18s;}
+    .sched-del-btn:hover{opacity:.8;transform:scale(1.1);}
+    .sched-empty{font-size:11px;color:var(--faint);padding:10px 0;text-align:center;letter-spacing:.3px;}
+    .notif-hint{font-size:10px;color:var(--faint);margin-top:10px;text-align:center;letter-spacing:.2px;}
+    .notif-hint button{background:none;border:none;color:var(--orange);font-size:10px;cursor:pointer;text-decoration:underline;padding:0;}
+    .break-banner{display:none;text-align:center;padding:16px 18px;border-radius:14px;border:1px solid rgba(255,200,80,0.35);background:rgba(255,200,80,0.07);margin-bottom:20px;animation:banner-pulse 2.5s ease-in-out infinite;}
+    .break-banner.visible{display:block;}
+    @keyframes banner-pulse{0%,100%{border-color:rgba(255,200,80,0.35);}50%{border-color:rgba(255,200,80,0.75);}}
+    .break-banner-icon{font-size:26px;line-height:1;margin-bottom:6px;}
+    .break-banner-msg{font-size:14px;font-weight:700;color:rgba(255,200,80,0.95);letter-spacing:0.5px;}
+    .break-banner-sub{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.3px;}
+    .break-banner-ends{font-size:11px;color:rgba(255,200,80,0.6);margin-top:3px;font-variant-numeric:tabular-nums;}
   </style>
 </head>
 <body>
 <div class="card">
   <div class="header-row">
-    <div style="width:70px"></div>
-    <div class="app-title">Productivity Tracker</div>
-    <button class="theme-toggle" onclick="toggleTheme()">
+    <button class="theme-toggle" id="brightBtn" onclick="toggleTheme()" title="Toggle dark / light">
       <span id="themeIcon">☀️</span>
-      <span class="toggle-label" id="themeLabel">Light</span>
     </button>
+    <div class="app-title">Productivity Tracker</div>
+    <div class="hue-wrap" title="Colour theme">
+      <div class="hue-track"><input type="range" class="hue-slider" id="hueSlider" min="0" max="359" value="30" oninput="onHueInput(this.value)"/></div>
+    </div>
   </div>
 
   <div class="storage-bar" id="storageBar">
@@ -245,41 +241,58 @@
   <div class="counter" id="counter">--:--</div>
   <div class="counter-sub" id="counter-sub">Set your start time above</div>
 
-  <div class="divider"></div>
-  <div class="section-label">Schedule Events</div>
-  <div class="meeting-row" style="margin-bottom:10px;">
-    <input class="time-input" type="time" id="schedTime" style="flex:1; width:100%; min-width:0; padding:14px 10px; font-size: 16px;" />
-    <input class="meeting-input" id="schedMins" type="number" min="1" max="480" placeholder="Minutes..." style="flex:1;" />
+  <div class="break-banner" id="breakBanner">
+    <div class="break-banner-icon" id="breakBannerIcon"></div>
+    <div class="break-banner-msg"  id="breakBannerMsg">You're on a break</div>
+    <div class="break-banner-sub"  id="breakBannerSub">Clock paused · resumes automatically</div>
+    <div class="break-banner-ends" id="breakBannerEnds"></div>
   </div>
-  <div class="meeting-row" style="margin-bottom:12px;">
-    <select class="meeting-input" id="schedType" style="flex:1; appearance:none;">
-      <option value="Break|☕">Break</option>
-      <option value="Lunch|🍱">Lunch</option>
-      <option value="Meeting|👥">Meeting</option>
-    </select>
-    <button class="btn-meeting" onclick="addSchedEvent()" style="padding-left:24px; padding-right:24px;">Add Event</button>
-  </div>
-  <div id="schedList" class="log-list" style="margin-bottom:20px; max-height:none; background:transparent; padding:0; border:none; display:none;"></div>
 
   <div class="divider"></div>
   <div class="section-label">Deduct Time</div>
 
   <div class="btn-grid">
-    <button class="btn btn-break-15" onclick="deduct(15,'15-Min Break','☕')">☕ 15-Min Break</button>
-    <button class="btn btn-break-10" onclick="deduct(10,'10-Min Break','🚶')">🚶 10-Min Break</button>
-    <button class="btn btn-lunch"    onclick="deduct(30,'30-Min Lunch','🥗')">🥗 30-Min Lunch</button>
+    <button class="btn btn-break-15" onclick="deduct(15,'15-Min Break','')">15-Min Break</button>
+    <button class="btn btn-break-10" onclick="deduct(10,'10-Min Break','')">10-Min Break</button>
+    <button class="btn btn-lunch"    onclick="deduct(30,'30-Min Lunch','')">30-Min Lunch</button>
   </div>
 
   <div class="meeting-row">
     <input class="meeting-input" id="meetingMins" type="number" min="1" max="480" placeholder="Minutes..."/>
-    <button class="btn-meeting" onclick="deductMeeting()">📅 Meeting</button>
+    <button class="btn-meeting" onclick="deductMeeting()">Meeting</button>
   </div>
 
   <div class="meeting-row" style="margin-top:10px;">
     <input class="meeting-input" id="callMins" type="number" min="1" max="480" placeholder="Minutes..."/>
-    <button class="btn-meeting" onclick="deductCall()">📞 Inbound Call</button>
+    <button class="btn-meeting" onclick="deductCall()">Inbound Call</button>
   </div>
   <div class="call-hint">Enter call duration from Talkdesk. You can find this after the call, or in your &ldquo;Activities&rdquo; tab. Recent calls may take a few minutes to update.</div>
+
+  <div class="schedule-section" id="scheduleSection">
+    <div class="schedule-header" onclick="toggleSchedule()">
+      <span class="schedule-title">📆 Scheduled Events</span>
+      <span class="schedule-chevron" id="schedChevron">▼</span>
+    </div>
+    <div class="schedule-body" id="scheduleBody">
+      <div class="schedule-body-inner">
+        <div class="sched-type-row">
+          <button class="sched-type-btn active" id="sbt-break15" onclick="selectSchedType('break15',this)">15-Min</button>
+          <button class="sched-type-btn" id="sbt-break10" onclick="selectSchedType('break10',this)">10-Min</button>
+          <button class="sched-type-btn" id="sbt-lunch" onclick="selectSchedType('lunch',this)">Lunch</button>
+          <button class="sched-type-btn" id="sbt-meeting" onclick="selectSchedType('meeting',this)">Meeting</button>
+        </div>
+        <div class="schedule-add-row">
+          <input class="sched-time-inp" type="time" id="schedTime"/>
+          <input class="sched-dur-inp" type="number" id="schedDur" min="1" max="480" placeholder="mins"/>
+          <button class="sched-add-btn" onclick="addScheduledItem()" title="Add">＋</button>
+        </div>
+        <div class="sched-list" id="schedList">
+          <div class="sched-empty" id="schedEmpty">No scheduled events yet</div>
+        </div>
+        <div class="notif-hint" id="notifHint"></div>
+      </div>
+    </div>
+  </div>
 
   <div class="log-section">
     <div class="log-header">
@@ -315,37 +328,117 @@
     </div>
   </div>
 </div>
+<div class="confirm-overlay" id="newDayOverlay">
+  <div class="confirm-box">
+    <div class="confirm-icon">🌅</div>
+    <div class="confirm-title">New day detected</div>
+    <div class="confirm-msg">It looks like this is your first time opening the tracker today. Clear yesterday's event log for a fresh start?</div>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" onclick="closeNewDay()">Keep yesterday</button>
+      <button class="confirm-ok" onclick="doNewDayReset()">Clear log</button>
+    </div>
+  </div>
+</div>
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
   const CURRENT_KEY  = 'prodTracker_v8';
   const FALLBACK_KEYS = ['prodTracker_v8','prodTracker_v2','prodTracker_v1'];
   const THEME_KEY    = 'prodTracker_theme';
+  const LAST_START_KEY = 'prodTracker_lastStart';
+  const DATE_KEY     = 'prodTracker_date';
   const COOKIE_DAYS  = 7;
 
   let events      = [];
-  let schedEvents = [];
   let nextId      = 1;
   let shiftMins   = null;   // null = no shift selected
   let shiftDoneNotified = false;
 
-  // ══ THEME ══════════════════════════════════════════════════
-  function applyTheme(t) {
-    document.documentElement.setAttribute('data-theme', t);
-    document.getElementById('themeIcon').textContent  = t==='dark' ? '☀️' : '🌙';
-    document.getElementById('themeLabel').textContent = t==='dark' ? 'Light' : 'Dark';
+  // ── Schedule ──
+  let scheduledItems = [];
+  let schedNextId    = 1;
+  let schedType      = 'break15';
+  const SCHED_TYPES  = {
+    break15:{label:'15-Min Break',icon:'',minutes:15, fixed:true},
+    break10:{label:'10-Min Break',icon:'',minutes:10, fixed:true},
+    lunch:  {label:'30-Min Lunch',icon:'',minutes:30, fixed:true},
+    meeting:{label:'Meeting',     icon:'📅',minutes:null,fixed:false},
+  };
+
+  // ══ THEME + COLOUR ═════════════════════════════════════════
+  const HUE_KEY='prodTracker_hue';
+  let currentHue=30; // default orange
+
+  function hsl(h,s,l,a=1){return a<1?`hsla(${h},${s}%,${l}%,${a})`:`hsl(${h},${s}%,${l})`;}
+
+  function applyColour(h,dark){
+    const r=`
+    :root{
+      --orange:${hsl(h,100,50)};
+      --neg:${dark?'#ff4444':'#cc2200'};
+      --neg-glow:0 0 40px ${hsl(h+180,80,50,.35)};
+      --done:#64d2a0; --done-glow:0 0 50px rgba(100,210,160,.5);
+      --bg-a:${dark?hsl(h,60,6):hsl(h,100,96)};
+      --bg-b:${dark?hsl(h,60,8):hsl(h,80,92)};
+      --bg-c:${dark?hsl(h,60,10):hsl(h,70,88)};
+      --card-bg:${dark?hsl(h,40,8,.05):'rgba(255,255,255,0.85)'};
+      --card-bdr:${hsl(h,80,50,.22)};
+      --card-shadow:0 24px 60px ${dark?'rgba(0,0,0,.5)':'rgba(0,0,0,.1)'},0 0 60px ${hsl(h,80,50,.07)};
+      --panel-bg:${hsl(h,80,50,.06)}; --panel-bdr:${hsl(h,80,50,.18)};
+      --inp-bg:${hsl(h,80,50,.12)}; --inp-bdr:${hsl(h,80,50,.4)}; --inp-col:${hsl(h,100,50)};
+      --ctr-glow:0 0 50px ${hsl(h,80,50,.5)};
+      --div:${hsl(h,80,50,.15)}; --sdiv:${hsl(h,80,50,.12)};
+      --log-bg:${hsl(h,80,50,.05)}; --log-hov:${hsl(h,80,50,.10)}; --log-bdr:${hsl(h,80,50,.12)}; --log-min:${hsl(h,80,50,.5)};
+      --b15-bg:${hsl(h,80,50,.15)}; --b15-hov:${hsl(h,80,50,.28)}; --b15-bdr:${hsl(h,80,50,.28)}; --b15-col:${hsl(h,100,50)};
+      --b10-bg:${hsl(h+10,70,50,.12)}; --b10-hov:${hsl(h+10,70,50,.24)}; --b10-bdr:${hsl(h+10,70,50,.25)}; --b10-col:${hsl(h+10,100,55)};
+      --bL-bg:${hsl(h+20,70,55,.12)}; --bL-hov:${hsl(h+20,70,55,.24)}; --bL-bdr:${hsl(h+20,70,55,.22)}; --bL-col:${hsl(h+20,90,60)};
+      --bM-bg:${hsl(h-10,80,45,.15)}; --bM-hov:${hsl(h-10,80,45,.28)}; --bM-bdr:${hsl(h-10,80,45,.25)}; --bM-col:${hsl(h-10,100,48)};
+      --mi-bg:${hsl(h-10,80,45,.08)}; --mi-bdr:${hsl(h-10,80,45,.25)}; --mi-col:${hsl(h-10,100,48)};
+      --rst-bg:rgba(220,50,50,.08); --rst-bdr:rgba(220,50,50,.3); --rst-col:rgba(230,90,90,.8); --rst-hov:rgba(220,50,50,.16);
+      --del-bg:rgba(220,50,50,.10); --del-bdr:rgba(220,50,50,.2); --del-col:rgba(220,50,50,.6);
+      --clr:rgba(200,50,50,.5);
+      --toast-bg:${dark?hsl(h,60,5,.9):'rgba(255,250,245,.97)'};
+      --toast-bdr:${hsl(h,80,50,.35)};
+      --toast-col:${dark?hsl(h,90,65):hsl(h,80,30)};
+      --dlg-bg:${dark?hsl(h,50,8):'#fff8f0'}; --dlg-bdr:${hsl(h,80,50,.3)};
+      --scroll:${hsl(h,80,50,.25)};
+      --sok-c:rgba(100,210,160,.7); --sok-b:rgba(100,210,160,.2); --sok-bg:rgba(100,210,160,.05);
+      --srs-c:${hsl(h,90,60,.95)}; --srs-b:${hsl(h,80,50,.3)}; --srs-bg:${hsl(h,80,50,.07)};
+      --ser-c:rgba(240,80,80,.75); --ser-b:rgba(240,80,80,.2); --ser-bg:rgba(240,80,80,.05);
+      --tgl-bg:${hsl(h,80,50,.12)}; --tgl-bdr:${hsl(h,80,50,.3)}; --tgl-col:${hsl(h,100,50)};
+      --shift-sel-bg:${hsl(h,80,50,.25)}; --shift-sel-bdr:${hsl(h,80,50,.6)}; --shift-sel-col:${hsl(h,100,50)};
+      --shift-bg:${hsl(h,80,50,.08)}; --shift-bdr:${hsl(h,80,50,.2)}; --shift-col:${hsl(h,80,50,.6)};
+      --progress-bg:${dark?'rgba(255,255,255,.07)':'rgba(0,0,0,.06)'};
+      --progress-fill:${hsl(h,80,50,.6)}; --progress-done:rgba(100,210,160,.7);
+    }`;
+    let s=document.getElementById('dynTheme');
+    if(!s){s=document.createElement('style');s.id='dynTheme';document.head.appendChild(s);}
+    s.textContent=r;
   }
-  function toggleTheme() {
-    const next = document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme',t);
+    document.getElementById('themeIcon').textContent=t==='dark'?'☀️':'🌙';
+    applyColour(currentHue,t==='dark');
+  }
+  function toggleTheme(){
+    const next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
     applyTheme(next);
     try{localStorage.setItem(THEME_KEY,next);}catch(e){}
     try{const exp=new Date(Date.now()+COOKIE_DAYS*864e5).toUTCString();document.cookie=THEME_KEY+'='+next+'; expires='+exp+'; path=/; SameSite=Lax';}catch(e){}
   }
-  function loadTheme() {
-    let t=null;
-    try{t=localStorage.getItem(THEME_KEY);}catch(e){}
+  function onHueInput(v){
+    currentHue=parseInt(v);
+    const dark=document.documentElement.getAttribute('data-theme')==='dark';
+    applyColour(currentHue,dark);
+    try{localStorage.setItem(HUE_KEY,v);}catch(e){}
+  }
+  function loadTheme(){
+    let t=null,h=null;
+    try{t=localStorage.getItem(THEME_KEY);h=localStorage.getItem(HUE_KEY);}catch(e){}
     if(!t){try{const m=document.cookie.match('(?:^|;)\s*'+THEME_KEY+'=([^;]+)');if(m)t=m[1];}catch(e){}}
     if(!t) t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+    if(h){currentHue=parseInt(h);document.getElementById('hueSlider').value=h;}
     applyTheme(t);
   }
 
@@ -362,10 +455,18 @@
     document.getElementById('storageMsg').textContent=msg;
   }
   function saveState() {
-    const payload=JSON.stringify({startTime:document.getElementById('startTime').value,events,schedEvents,nextId,shiftMins,ts:Date.now()});
+    const payload=JSON.stringify({startTime:document.getElementById('startTime').value,events,nextId,shiftMins,scheduledItems,schedNextId,ts:Date.now()});
+    saveLastStart();
     const ls=lsSet(CURRENT_KEY,payload), ck=ckSet(CURRENT_KEY,payload);
     if(ls||ck){const via=ls&&ck?'localStorage + cookie':ls?'localStorage':'cookie';setBar('saved','✓ Saved · '+events.length+' event'+(events.length!==1?'s':'')+' · '+via);}
     else setBar('error','✗ Could not save — check browser settings');
+  }
+  function saveLastStart(){
+    const v=document.getElementById('startTime').value;
+    if(v){lsSet(LAST_START_KEY,v);ckSet(LAST_START_KEY,v);}
+  }
+  function getLastStart(){
+    return lsGet(LAST_START_KEY)||ckGet(LAST_START_KEY)||'08:00';
   }
   function loadState() {
     for(const key of FALLBACK_KEYS){
@@ -376,9 +477,10 @@
         if(!s||typeof s!=='object') continue;
         if(s.startTime) document.getElementById('startTime').value=s.startTime;
         if(Array.isArray(s.events)) events=s.events;
-        if(Array.isArray(s.schedEvents)) schedEvents=s.schedEvents;
         if(s.nextId)    nextId=s.nextId;
         if(s.shiftMins) shiftMins=s.shiftMins;
+        if(Array.isArray(s.scheduledItems)) scheduledItems=s.scheduledItems;
+        if(s.schedNextId) schedNextId=s.schedNextId;
         const ago=s.ts?' · saved '+timeSince(s.ts):'';
         const src=key!==CURRENT_KEY?' (migrated from '+key+')':'';
         setBar('restored','↩ Session restored'+ago+src);
@@ -474,63 +576,32 @@
     const start=getStartSec(), cel=document.getElementById('counter'),
           sub=document.getElementById('counter-sub'), eel=document.getElementById('stat-elapsed');
 
+    checkSchedule();
+
     if(!start){
       cel.textContent='--:--'; sub.textContent='Set your start time above';
-      cel.classList.remove('negative','done'); return;
+      cel.classList.remove('negative','done'); hideBreakBanner(); return;
     }
 
-    const nSec = nowSec();
-    let elapsed = nSec - start;
+    const elapsed  = nowSec() - start;
+    const deducted = totalDed();
 
     if(elapsed < 0){
       cel.textContent='--:--'; cel.classList.remove('negative','done');
-      sub.textContent='⏳ Start time is in the future'; eel.textContent='--'; return;
+      sub.textContent='⏳ Start time is in the future'; eel.textContent='--'; hideBreakBanner(); return;
     }
 
-    let activeSchedDeduct = 0;
-    let onBreakMessage = null;
-
-    schedEvents.forEach(ev => {
-        if(ev.logged) return;
-
-        const [h, m] = ev.time.split(':').map(Number);
-        const evStartSec = h * 3600 + m * 60;
-        const evEndSec = evStartSec + ev.minutes * 60;
-
-        if(nSec >= evEndSec) {
-            ev.logged = true;
-            deduct(ev.minutes, ev.label, ev.icon);
-            renderSchedList();
-            saveState();
-        } 
-        else if(nSec >= evStartSec && nSec < evEndSec) {
-            activeSchedDeduct += (nSec - evStartSec);
-            const hrs = Math.floor(evEndSec / 3600).toString().padStart(2, '0');
-            const mns = Math.floor((evEndSec % 3600) / 60).toString().padStart(2, '0');
-            onBreakMessage = `Currently on ${ev.label} until ${hrs}:${mns}`;
-        }
-        
-        if(nSec >= evStartSec - 30 && nSec < evStartSec && !ev.notified) {
-            ev.notified = true;
-            saveState();
-            if(window.Notification && Notification.permission === "granted") {
-                new Notification(`Upcoming ${ev.label}`, {
-                    body: `Your ${ev.minutes}-minute ${ev.label} starts in 30 seconds.`,
-                    icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACXklEQVR4nO1b3XmFMAiN/bqFWzqBE7ilc9intJQLBiKERD1v7TUknBzIf0ovno2pZWXHmg7pt9Papm2ulWgcLsGLEBejlo5jWBNhZkzi9LzJ7e1L+RsLMkwIONZ0zNtnozUOl0DZ3pfrJFwqzPV6TU9Ly3DKqCXiq6ZQSn+9DjFvtr1Ogapj3urzThVruLIrTmsVwJXP0CpBrYDsfG6wd4+XgNuhVYKKAGh8X+Kdz8AJWDXhkn4IjXpndyt7knAQKcDL+WzP0ia0JVFCkQAc86NAmhNOCYBDXU8xXwLMCaUh8jRGPKUPcXUoLNlNic8HrAJaOe8JST4gCaBmeaODCwVWAV6ybA2YwyhUrwXugg8C7hD7GGe5oBsFRJH9j4CI3pfs/FiAU4GpAlo5YwnzENiXsYhwywGjEPFLgEX8Uyu7noig8oCLAjgieoTrMIiJwGrogZQm8wBJWESR8d2qotKcPP9muSVG1Y9xSoDWmATUCVIkmimgFbSdc0qA13SYU0HEeiBsMUQdb0UgNAR6WG53sxyOwi8BcNe0pyxtCWqX+FVAdAOi8RIA/7hzHuBOiV4F4H/cUQVnZ4SvArgfJMvXEVA64iOnwtOaJs/rrhHgLlWyCrhDLrh0PyBj1FCQnm6fEjCtaYKGRiEBbq2V7hMXFZALj+J8Rm5v6aqcaBj0ygcehybae4LiDRE4MvR4e6T2zrBqIgSN9pQT8Ha65sK0eiaIc0I0Cbgd7rfFYSUw07YmAtaZ21HzaCL0xUhNLrF+MfK+GbpSGOLRr8YwHvlukMJjX45y6PHt8OPxA+FjF4SZyVIQAAAAAElFTkSuQmCC'
-                });
-            }
-        }
-    });
-
-    const deducted = totalDed() + activeSchedDeduct;
     eel.textContent = fmtElapsed(elapsed);
     updateProgress(elapsed / 60);
 
-    let defaultSub = 'Since ' + document.getElementById('startTime').value;
+    // Active scheduled event → subtract its elapsed time so counter freezes
+    const activeEv    = getActiveScheduledEvent();
+    const activeEvSec = activeEv ? Math.max(0, nowSec() - timeStrToSec(activeEv.startTime)) : 0;
+    if(activeEv) showBreakBanner(activeEv); else hideBreakBanner();
 
     if(shiftMins !== null) {
       const effectiveElapsed = Math.min(elapsed, shiftMins * 60);
-      const prod = effectiveElapsed - deducted;
+      const prod      = effectiveElapsed - deducted - activeEvSec;
       const isComplete = elapsed >= shiftMins * 60;
 
       cel.textContent = fmt(Math.max(0, prod));
@@ -538,25 +609,160 @@
 
       if(isComplete) {
         cel.classList.add('done');
-        sub.textContent = onBreakMessage || '✅ Shift complete! Great work today.';
-        if(!shiftDoneNotified){
-          showToast('🎉 Shift complete!');
-          shiftDoneNotified = true;
-        }
+        sub.textContent = '✅ Shift complete! Great work today.';
+        if(!shiftDoneNotified){ showToast('🎉 Shift complete!'); shiftDoneNotified=true; }
+      } else if(activeEv) {
+        sub.textContent = activeEv.icon+' '+activeEv.label+' in progress — clock paused';
       } else if(prod < 0) {
         cel.classList.add('negative');
-        sub.textContent = onBreakMessage || '⚠️ More time deducted than elapsed!';
+        sub.textContent = '⚠️ More time deducted than elapsed!';
       } else {
-        sub.textContent = onBreakMessage || defaultSub;
+        sub.textContent = 'Since ' + document.getElementById('startTime').value;
       }
       updateShiftInfo();
     } else {
-      const prod = elapsed - deducted;
+      const prod = elapsed - deducted - activeEvSec;
       cel.textContent = fmt(prod);
       cel.classList.remove('done');
-      cel.classList.toggle('negative', prod < 0);
-      sub.textContent = onBreakMessage || (prod < 0 ? '⚠️ More time deducted than elapsed!' : defaultSub);
+      if(activeEv){
+        sub.textContent = activeEv.icon+' '+activeEv.label+' in progress — clock paused';
+      } else {
+        cel.classList.toggle('negative', prod < 0);
+        sub.textContent = prod < 0 ? '⚠️ More time deducted than elapsed!'
+                                   : 'Since ' + document.getElementById('startTime').value;
+      }
     }
+  }
+
+
+  // ══ SCHEDULE ═══════════════════════════════════════════════
+  function timeStrToSec(t){if(!t)return null;const[h,m]=t.split(':').map(Number);return h*3600+m*60;}
+
+  function toggleSchedule(){
+    document.getElementById('scheduleBody').classList.toggle('open');
+    document.getElementById('schedChevron').classList.toggle('open');
+  }
+
+  function selectSchedType(type,btn){
+    schedType=type;
+    document.querySelectorAll('.sched-type-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const dur=document.getElementById('schedDur');
+    if(SCHED_TYPES[type].fixed){dur.classList.remove('visible');dur.value='';}
+    else{dur.classList.add('visible');setTimeout(()=>dur.focus(),50);}
+  }
+
+  function addScheduledItem(){
+    const timeVal=document.getElementById('schedTime').value;
+    if(!timeVal){showToast('⚠️ Please pick a start time');return;}
+    const def=SCHED_TYPES[schedType];
+    let mins=def.minutes;
+    if(!def.fixed){
+      mins=parseInt(document.getElementById('schedDur').value,10);
+      if(!mins||mins<=0){showToast('⚠️ Enter meeting duration in minutes');return;}
+      if(mins>480){showToast('⚠️ Maximum 480 minutes');return;}
+    }
+    const label=def.fixed?def.label:'Meeting ('+mins+' min)';
+    scheduledItems.push({id:schedNextId++,type:schedType,icon:def.icon,label,minutes:mins,startTime:timeVal,notified:false,autoLogged:false});
+    scheduledItems.sort((a,b)=>timeStrToSec(a.startTime)-timeStrToSec(b.startTime));
+    document.getElementById('schedTime').value='';
+    document.getElementById('schedDur').value='';
+    renderSchedule();saveState();
+    showToast('📆 Scheduled: '+def.icon+' '+label+' at '+timeVal);
+  }
+
+  function removeScheduledItem(id){
+    scheduledItems=scheduledItems.filter(i=>i.id!==id);
+    renderSchedule();saveState();showToast('↩️ Scheduled event removed');
+  }
+
+  function renderSchedule(){
+    const list=document.getElementById('schedList'),empty=document.getElementById('schedEmpty');
+    list.querySelectorAll('.sched-item').forEach(el=>el.remove());
+    if(!scheduledItems.length){empty.style.display='block';return;}
+    empty.style.display='none';
+    const nowS=nowSec();
+    scheduledItems.forEach(item=>{
+      const startS=timeStrToSec(item.startTime),endS=startS+item.minutes*60;
+      const isActive=nowS>=startS&&nowS<endS&&!item.autoLogged;
+      const isDone=item.autoLogged;
+      const endHH=String(Math.floor(endS/3600)).padStart(2,'0');
+      const endMM=String(Math.floor((endS%3600)/60)).padStart(2,'0');
+      const statusTxt=isDone?' · ✅ auto-logged':isActive?' · ▶ in progress':'';
+      const d=document.createElement('div');
+      d.className='sched-item'+(isActive?' sched-active':'')+(isDone?' sched-done':'');
+      d.id='sched-'+item.id;
+      d.innerHTML=`<div class="sched-item-left">`
+        +`<div class="sched-item-icon">${item.icon}</div>`
+        +`<div><div class="sched-item-label">${item.label}</div>`
+        +`<div class="sched-item-time">${item.startTime} \u2192 ${endHH}:${endMM}${statusTxt}</div></div></div>`
+        +`<button class="sched-del-btn" onclick="removeScheduledItem(${item.id})" title="Remove">\u2715</button>`;
+      list.appendChild(d);
+    });
+  }
+
+  function getActiveScheduledEvent(){
+    const nowS=nowSec();
+    return scheduledItems.find(item=>{
+      const s=timeStrToSec(item.startTime);
+      return nowS>=s&&nowS<s+item.minutes*60&&!item.autoLogged;
+    })||null;
+  }
+
+  function showBreakBanner(ev){
+    const nowS=nowSec(),endS=timeStrToSec(ev.startTime)+ev.minutes*60;
+    const rem=Math.max(0,endS-nowS),remM=Math.floor(rem/60),remS=rem%60;
+    document.getElementById('breakBannerIcon').textContent=ev.icon;
+    document.getElementById('breakBannerMsg').textContent='You\'re on '+ev.label;
+    document.getElementById('breakBannerSub').textContent='Clock paused \u00b7 resumes automatically';
+    document.getElementById('breakBannerEnds').textContent='Ends in '+remM+':'+String(remS).padStart(2,'0');
+    document.getElementById('breakBanner').classList.add('visible');
+  }
+  function hideBreakBanner(){document.getElementById('breakBanner').classList.remove('visible');}
+
+  function checkSchedule(){
+    const nowS=nowSec();let changed=false;
+    scheduledItems.forEach(item=>{
+      const startS=timeStrToSec(item.startTime),endS=startS+item.minutes*60;
+      if(!item.notified&&nowS>=startS-30&&nowS<startS){
+        item.notified=true;
+        sendNotification('\u23f0 '+item.icon+' '+item.label+' starting in 30 seconds',
+          'Starting at '+item.startTime+' \u00b7 '+item.minutes+' min');
+        showToast('\u23f0 '+item.icon+' '+item.label+' starts in 30 seconds!');
+        changed=true;
+      }
+      if(!item.autoLogged&&nowS>=endS){
+        item.autoLogged=true;
+        deduct(item.minutes,item.label,item.icon);
+        showToast('\u2705 Auto-logged: '+item.icon+' '+item.label);
+        changed=true;
+      }
+    });
+    if(changed){renderSchedule();saveState();}
+  }
+
+  // ══ NOTIFICATIONS ═══════════════════════════════════════════
+  function sendNotification(title,body){
+    if('Notification' in window&&Notification.permission==='granted'){
+      try{new Notification(title,{body});}catch(e){}
+    }
+  }
+  function requestNotifPermission(){
+    const hint=document.getElementById('notifHint');
+    if(!('Notification' in window)){hint.textContent='Notifications not supported in this browser.';return;}
+    if(Notification.permission==='granted'){
+      hint.innerHTML='\uD83D\uDD14 Notifications enabled';
+    } else if(Notification.permission==='denied'){
+      hint.innerHTML='\uD83D\uDD15 Notifications blocked \u2014 enable in browser settings for 30s warnings';
+    } else {
+      hint.innerHTML='<button onclick="askNotif()">Enable notifications</button> for 30-second warnings';
+    }
+  }
+  function askNotif(){
+    Notification.requestPermission().then(p=>{
+      requestNotifPermission();
+      if(p==='granted') showToast('\uD83D\uDD14 Notifications enabled!');
+    });
   }
 
   function updateStats() {
@@ -566,74 +772,6 @@
   }
 
   // ══ LOG ════════════════════════════════════════════════════
-  
-  function addSchedEvent() {
-    const time = document.getElementById('schedTime').value;
-    const mins = parseInt(document.getElementById('schedMins').value, 10);
-    const typeVal = document.getElementById('schedType').value;
-
-    if(!time || !mins || mins <= 0) {
-      showToast('⚠️ Please enter valid time and minutes');
-      return;
-    }
-
-    const [label, icon] = typeVal.split('|');
-
-    if (window.Notification && Notification.permission !== "granted" && Notification.permission !== "denied") {
-      Notification.requestPermission();
-    }
-
-    schedEvents.push({
-      id: nextId++,
-      time: time,
-      minutes: mins,
-      label: label,
-      icon: icon,
-      logged: false,
-      notified: false
-    });
-    
-    document.getElementById('schedTime').value = '';
-    document.getElementById('schedMins').value = '';
-    
-    renderSchedList();
-    saveState();
-    tick();
-  }
-
-  function removeSchedEvent(id) {
-    schedEvents = schedEvents.filter(e => e.id !== id);
-    renderSchedList();
-    saveState();
-    tick();
-  }
-
-  function renderSchedList() {
-    const c = document.getElementById('schedList');
-    c.innerHTML = '';
-    if (schedEvents.length === 0) {
-      c.style.display = 'none';
-      return;
-    }
-    c.style.display = 'block';
-    
-    const sorted = [...schedEvents].sort((a,b) => a.time.localeCompare(b.time));
-    
-    sorted.forEach(ev => {
-      const d = document.createElement('div');
-      d.className = 'log-item';
-      if(ev.logged) d.style.opacity = '0.5';
-      
-      let statusText = ev.logged ? 'Done' : 'Scheduled';
-      
-      d.innerHTML = `<div class="log-item-left"><div class="log-item-icon">${ev.icon}</div>
-        <div><div class="log-item-label">${ev.label} @ ${ev.time}</div>
-        <div class="log-item-mins">${ev.minutes} mins · ${statusText}</div></div></div>
-        <button class="log-delete-btn" onclick="removeSchedEvent(${ev.id})" title="Remove">✕</button>`;
-      c.appendChild(d);
-    });
-  }
-
   function renderLog() {
     const list=document.getElementById('logList'),empty=document.getElementById('logEmpty');
     list.querySelectorAll('.log-item').forEach(el=>el.remove());
@@ -671,15 +809,17 @@
     showToast('↩️ Removed: '+ev.icon+' '+ev.label);
   }
   function clearAll(){if(!events.length)return;events=[];renderLog();updateStats();saveState();tick();showToast('🗑️ All events cleared');}
-  function setToNow(){const n=new Date();document.getElementById('startTime').value=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');saveState();tick();showToast('⏱️ Start time set to now');}
+  function setToNow(){const n=new Date();document.getElementById('startTime').value=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');saveLastStart();saveState();tick();showToast('⏱️ Start time set to now');}
   function confirmReset(){document.getElementById('confirmOverlay').classList.add('active');}
   function closeConfirm(){document.getElementById('confirmOverlay').classList.remove('active');}
   function doReset(){
-    closeConfirm();events=[];schedEvents=[];nextId=1;renderSchedList();shiftMins=null;shiftDoneNotified=false;
-    document.getElementById('startTime').value='08:00';
+    closeConfirm();events=[];nextId=1;shiftMins=null;shiftDoneNotified=false;
+    document.getElementById('startTime').value=getLastStart();
     clearShiftButtons();document.getElementById('shiftOtherInp').value='';
-    updateShiftInfo();renderLog();updateStats();clearAllStorage();setBar('','No saved session');tick();
-    showToast('🔄 Day reset — fresh start!');
+    scheduledItems.forEach(item=>{item.autoLogged=false;item.notified=false;});
+    updateShiftInfo();renderLog();renderSchedule();updateStats();
+    clearAllStorage();setBar('','No saved session');hideBreakBanner();tick();
+    showToast('\uD83D\uDD04 Day reset \u2014 schedule flags cleared, fresh start!');
   }
   document.getElementById('confirmOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeConfirm();});
   function showToast(msg){const c=document.getElementById('toastContainer'),t=document.createElement('div');t.className='toast';t.textContent=msg;c.appendChild(t);setTimeout(()=>t.remove(),2300);}
@@ -689,15 +829,41 @@
   document.getElementById('meetingMins').addEventListener('keydown',e=>{if(e.key==='Enter')deductMeeting();});
   document.getElementById('callMins').addEventListener('keydown',e=>{if(e.key==='Enter')deductCall();});
   document.getElementById('shiftOtherInp').addEventListener('keydown',e=>{if(e.key==='Enter')e.target.blur();});
-  document.getElementById('startTime').addEventListener('change',()=>{saveState();tick();});
+  document.getElementById('startTime').addEventListener('change',()=>{saveLastStart();saveState();tick();});
+
+  // ══ NEW-DAY CHECK ══════════════════════════════════════════
+  function todayStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  function checkNewDay(){
+    const today=todayStr();
+    const last=lsGet(DATE_KEY)||ckGet(DATE_KEY);
+    lsSet(DATE_KEY,today);ckSet(DATE_KEY,today);
+    if(last&&last!==today&&(events.length||shiftMins)){
+      document.getElementById('newDayOverlay').classList.add('active');
+    }
+  }
+  function closeNewDay(){document.getElementById('newDayOverlay').classList.remove('active');}
+  function doNewDayReset(){
+    closeNewDay();
+    events=[];nextId=1;shiftMins=null;shiftDoneNotified=false;
+    document.getElementById('startTime').value=getLastStart();
+    clearShiftButtons();document.getElementById('shiftOtherInp').value='';
+    scheduledItems.forEach(item=>{item.autoLogged=false;item.notified=false;});
+    updateShiftInfo();renderLog();renderSchedule();updateStats();
+    saveState();hideBreakBanner();tick();
+    showToast('🌅 New day — log cleared!');
+  }
+  document.getElementById('newDayOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeNewDay();});
 
   // ══ BOOT ═══════════════════════════════════════════════════
   loadTheme();
-  loadState();
+  const _hadSession=loadState();
+  if(!_hadSession){const _ls=getLastStart();if(_ls!=='08:00')document.getElementById('startTime').value=_ls;}
+  checkNewDay();
   restoreShiftUI();
   renderLog();
-  renderSchedList();
+  renderSchedule();
   updateStats();
+  requestNotifPermission();
   tick();
   setInterval(tick, 1000);
 </script>

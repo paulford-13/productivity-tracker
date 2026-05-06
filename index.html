@@ -516,12 +516,9 @@
     c.addEventListener('pointermove',_cwPointerMove);
     c.addEventListener('pointerup',_cwPointerUp);
     c.addEventListener('pointercancel',_cwPointerUp);
-  }catch(e){}
-    drawColorWheel();
   }
   function loadTheme(){
-    let t=null,h=null;
-    let li=null;
+    let t=null,h=null,li=null;
     try{t=localStorage.getItem(THEME_KEY);h=localStorage.getItem(HUE_KEY);li=localStorage.getItem(LIGHTNESS_KEY);}catch(e){}
     if(!t){try{const m=document.cookie.match('(?:^|;)\s*'+THEME_KEY+'=([^;]+)');if(m)t=m[1];}catch(e){}}
     if(!t) t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';

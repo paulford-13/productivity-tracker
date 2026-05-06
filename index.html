@@ -471,7 +471,7 @@
         const dx=px-cx,dy=py-cy,dist=Math.sqrt(dx*dx+dy*dy);
         if(dist>outerR) continue;
         const angle=(Math.atan2(dy,dx)*180/Math.PI+360)%360;
-        const light=CW_L_MIN+(dist/outerR)*(CW_L_MAX-CW_L_MIN);
+        const light=CW_L_MAX-(dist/outerR)*(CW_L_MAX-CW_L_MIN);
         const [r,g,b]=hslToRgb(angle,80,light);
         const i=(py*size+px)*4;
         img.data[i]=r;img.data[i+1]=g;img.data[i+2]=b;img.data[i+3]=255;
@@ -480,7 +480,7 @@
     ctx.putImageData(img,0,0);
     // Indicator dot
     const selRad=currentHue*Math.PI/180;
-    const selR=((currentLightness-CW_L_MIN)/(CW_L_MAX-CW_L_MIN))*outerR;
+    const selR=((CW_L_MAX-currentLightness)/(CW_L_MAX-CW_L_MIN))*outerR;
     const ix=cx+selR*Math.cos(selRad),iy=cy+selR*Math.sin(selRad);
     ctx.beginPath();ctx.arc(ix,iy,10,0,Math.PI*2);
     ctx.fillStyle='rgba(255,255,255,0.9)';ctx.fill();
@@ -500,7 +500,7 @@
     let angle=Math.atan2(y,x)*180/Math.PI;
     if(angle<0) angle+=360;
     currentHue=Math.round(angle)%360;
-    currentLightness=Math.round(CW_L_MIN+(dist/outerR)*(CW_L_MAX-CW_L_MIN));
+    currentLightness=Math.round(CW_L_MAX-(dist/outerR)*(CW_L_MAX-CW_L_MIN));
     const dark=document.documentElement.getAttribute('data-theme')==='dark';
     applyColour(currentHue,currentLightness,dark);
     try{localStorage.setItem(HUE_KEY,currentHue);

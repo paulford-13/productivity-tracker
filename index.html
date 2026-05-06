@@ -31,7 +31,7 @@
     .theme-toggle{background:var(--tgl-bg);border:1px solid var(--tgl-bdr);color:var(--tgl-col);border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;}
     .theme-toggle:hover{opacity:.8;transform:scale(1.08);}
     /* ── Colour-wheel button ── */
-    .cw-btn{width:34px;height:34px;border-radius:50%;border:2px solid rgba(128,128,128,.25);padding:0;cursor:pointer;flex-shrink:0;transition:transform .22s,box-shadow .22s;
+    .cw-btn{width:34px;height:34px;border-radius:50%;border:2px solid rgba(128,128,128,.25);padding:0;cursor:pointer;flex-shrink:0;transition:transform .22s,box-shadow .22s;-webkit-appearance:none;appearance:none;overflow:hidden;
       background:conic-gradient(hsl(0,80%,55%),hsl(30,80%,55%),hsl(60,80%,55%),hsl(90,80%,55%),hsl(120,80%,55%),hsl(150,80%,55%),hsl(180,80%,55%),hsl(210,80%,55%),hsl(240,80%,55%),hsl(270,80%,55%),hsl(300,80%,55%),hsl(330,80%,55%),hsl(0,80%,55%));}
     .cw-btn:hover{transform:scale(1.12) rotate(20deg);box-shadow:0 0 10px rgba(255,255,255,.15);}
     /* ── Colour-wheel popup ── */
@@ -346,7 +346,7 @@
 <div class="cw-overlay" id="cwOverlay" onclick="closeColorWheel()">
   <div class="cw-popup" onclick="event.stopPropagation()">
     <div class="cw-title">Colour Theme</div>
-    <canvas class="cw-canvas" id="cwCanvas" width="240" height="240" onclick="onWheelClick(event)"></canvas>
+    <canvas class="cw-canvas" id="cwCanvas" width="240" height="240"></canvas>
     <div class="cw-swatch" id="cwSwatch"></div>
   </div>
 </div>
@@ -378,49 +378,53 @@
 
   // ══ THEME + COLOUR ═════════════════════════════════════════
   const HUE_KEY='prodTracker_hue';
-  let currentHue=30; // default orange
+  const LIGHTNESS_KEY='prodTracker_lightness';
+  let currentHue=30;       // default orange
+  let currentLightness=55; // default mid-tone
 
   function hsl(h,s,l,a=1){return a<1?`hsla(${h},${s}%,${l}%,${a})`:`hsl(${h},${s}%,${l}%)`;}
 
-  function applyColour(h,dark){
+  function applyColour(h,l,dark){
+    const lc=Math.max(15,Math.min(85,l));
+    const lm=Math.round(lc*0.55+12);
     const r=`
     :root{
-      --orange:${hsl(h,100,50)};
+      --orange:${hsl(h,100,lc)};
       --neg:${dark?'#ff4444':'#cc2200'};
-      --neg-glow:0 0 40px ${hsl(h+180,80,50,.35)};
+      --neg-glow:0 0 40px ${hsl(h+180,80,lc,.35)};
       --done:#64d2a0; --done-glow:0 0 50px rgba(100,210,160,.5);
       --bg-a:${dark?hsl(h,60,6):hsl(h,100,96)};
       --bg-b:${dark?hsl(h,60,8):hsl(h,80,92)};
       --bg-c:${dark?hsl(h,60,10):hsl(h,70,88)};
       --card-bg:${dark?hsl(h,40,8,.05):'rgba(255,255,255,0.85)'};
-      --card-bdr:${hsl(h,80,50,.22)};
-      --card-shadow:0 24px 60px ${dark?'rgba(0,0,0,.5)':'rgba(0,0,0,.1)'},0 0 60px ${hsl(h,80,50,.07)};
-      --panel-bg:${hsl(h,80,50,.06)}; --panel-bdr:${hsl(h,80,50,.18)};
-      --inp-bg:${hsl(h,80,50,.12)}; --inp-bdr:${hsl(h,80,50,.4)}; --inp-col:${hsl(h,100,50)};
-      --ctr-glow:0 0 50px ${hsl(h,80,50,.5)};
-      --div:${hsl(h,80,50,.15)}; --sdiv:${hsl(h,80,50,.12)};
-      --log-bg:${hsl(h,80,50,.05)}; --log-hov:${hsl(h,80,50,.10)}; --log-bdr:${hsl(h,80,50,.12)}; --log-min:${hsl(h,80,50,.5)};
-      --b15-bg:${hsl(h,80,50,.15)}; --b15-hov:${hsl(h,80,50,.28)}; --b15-bdr:${hsl(h,80,50,.28)}; --b15-col:${hsl(h,100,50)};
-      --b10-bg:${hsl(h+10,70,50,.12)}; --b10-hov:${hsl(h+10,70,50,.24)}; --b10-bdr:${hsl(h+10,70,50,.25)}; --b10-col:${hsl(h+10,100,55)};
-      --bL-bg:${hsl(h+20,70,55,.12)}; --bL-hov:${hsl(h+20,70,55,.24)}; --bL-bdr:${hsl(h+20,70,55,.22)}; --bL-col:${hsl(h+20,90,60)};
-      --bM-bg:${hsl(h-10,80,45,.15)}; --bM-hov:${hsl(h-10,80,45,.28)}; --bM-bdr:${hsl(h-10,80,45,.25)}; --bM-col:${hsl(h-10,100,48)};
-      --mi-bg:${hsl(h-10,80,45,.08)}; --mi-bdr:${hsl(h-10,80,45,.25)}; --mi-col:${hsl(h-10,100,48)};
+      --card-bdr:${hsl(h,80,lm,.22)};
+      --card-shadow:0 24px 60px ${dark?'rgba(0,0,0,.5)':'rgba(0,0,0,.1)'},0 0 60px ${hsl(h,80,lm,.07)};
+      --panel-bg:${hsl(h,80,lm,.06)}; --panel-bdr:${hsl(h,80,lm,.18)};
+      --inp-bg:${hsl(h,80,lm,.12)}; --inp-bdr:${hsl(h,80,lm,.4)}; --inp-col:${hsl(h,100,lc)};
+      --ctr-glow:0 0 50px ${hsl(h,80,lc,.5)};
+      --div:${hsl(h,80,lm,.15)}; --sdiv:${hsl(h,80,lm,.12)};
+      --log-bg:${hsl(h,80,lm,.05)}; --log-hov:${hsl(h,80,lm,.10)}; --log-bdr:${hsl(h,80,lm,.12)}; --log-min:${hsl(h,80,lc,.5)};
+      --b15-bg:${hsl(h,80,lm,.15)}; --b15-hov:${hsl(h,80,lm,.28)}; --b15-bdr:${hsl(h,80,lm,.28)}; --b15-col:${hsl(h,100,lc)};
+      --b10-bg:${hsl(h+10,70,lm,.12)}; --b10-hov:${hsl(h+10,70,lm,.24)}; --b10-bdr:${hsl(h+10,70,lm,.25)}; --b10-col:${hsl(h+10,100,Math.min(lc+5,85))};
+      --bL-bg:${hsl(h+20,70,lm,.12)}; --bL-hov:${hsl(h+20,70,lm,.24)}; --bL-bdr:${hsl(h+20,70,lm,.22)}; --bL-col:${hsl(h+20,90,Math.min(lc+8,85))};
+      --bM-bg:${hsl(h-10,80,lm,.15)}; --bM-hov:${hsl(h-10,80,lm,.28)}; --bM-bdr:${hsl(h-10,80,lm,.25)}; --bM-col:${hsl(h-10,100,Math.max(lc-3,15))};
+      --mi-bg:${hsl(h-10,80,lm,.08)}; --mi-bdr:${hsl(h-10,80,lm,.25)}; --mi-col:${hsl(h-10,100,Math.max(lc-3,15))};
       --rst-bg:rgba(220,50,50,.08); --rst-bdr:rgba(220,50,50,.3); --rst-col:rgba(230,90,90,.8); --rst-hov:rgba(220,50,50,.16);
       --del-bg:rgba(220,50,50,.10); --del-bdr:rgba(220,50,50,.2); --del-col:rgba(220,50,50,.6);
       --clr:rgba(200,50,50,.5);
       --toast-bg:${dark?hsl(h,60,5,.9):'rgba(255,250,245,.97)'};
-      --toast-bdr:${hsl(h,80,50,.35)};
-      --toast-col:${dark?hsl(h,90,65):hsl(h,80,30)};
-      --dlg-bg:${dark?hsl(h,50,8):'#fff8f0'}; --dlg-bdr:${hsl(h,80,50,.3)};
-      --scroll:${hsl(h,80,50,.25)};
+      --toast-bdr:${hsl(h,80,lm,.35)};
+      --toast-col:${dark?hsl(h,90,Math.min(lc+15,85)):hsl(h,80,Math.max(lc-20,15))};
+      --dlg-bg:${dark?hsl(h,50,8):'#fff8f0'}; --dlg-bdr:${hsl(h,80,lm,.3)};
+      --scroll:${hsl(h,80,lm,.25)};
       --sok-c:rgba(100,210,160,.7); --sok-b:rgba(100,210,160,.2); --sok-bg:rgba(100,210,160,.05);
-      --srs-c:${hsl(h,90,60,.95)}; --srs-b:${hsl(h,80,50,.3)}; --srs-bg:${hsl(h,80,50,.07)};
+      --srs-c:${hsl(h,90,Math.min(lc+8,85),.95)}; --srs-b:${hsl(h,80,lm,.3)}; --srs-bg:${hsl(h,80,lm,.07)};
       --ser-c:rgba(240,80,80,.75); --ser-b:rgba(240,80,80,.2); --ser-bg:rgba(240,80,80,.05);
-      --tgl-bg:${hsl(h,80,50,.12)}; --tgl-bdr:${hsl(h,80,50,.3)}; --tgl-col:${hsl(h,100,50)};
-      --shift-sel-bg:${hsl(h,80,50,.25)}; --shift-sel-bdr:${hsl(h,80,50,.6)}; --shift-sel-col:${hsl(h,100,50)};
-      --shift-bg:${hsl(h,80,50,.08)}; --shift-bdr:${hsl(h,80,50,.2)}; --shift-col:${hsl(h,80,50,.6)};
+      --tgl-bg:${hsl(h,80,lm,.12)}; --tgl-bdr:${hsl(h,80,lm,.3)}; --tgl-col:${hsl(h,100,lc)};
+      --shift-sel-bg:${hsl(h,80,lm,.25)}; --shift-sel-bdr:${hsl(h,80,lm,.6)}; --shift-sel-col:${hsl(h,100,lc)};
+      --shift-bg:${hsl(h,80,lm,.08)}; --shift-bdr:${hsl(h,80,lm,.2)}; --shift-col:${hsl(h,80,lc,.6)};
       --progress-bg:${dark?'rgba(255,255,255,.07)':'rgba(0,0,0,.06)'};
-      --progress-fill:${hsl(h,80,50,.6)}; --progress-done:rgba(100,210,160,.7);
+      --progress-fill:${hsl(h,80,lc,.6)}; --progress-done:rgba(100,210,160,.7);
     }`;
     let s=document.getElementById('dynTheme');
     if(!s){s=document.createElement('style');s.id='dynTheme';document.head.appendChild(s);}
@@ -430,7 +434,7 @@
   function applyTheme(t){
     document.documentElement.setAttribute('data-theme',t);
     document.getElementById('themeIcon').textContent=t==='dark'?'☀️':'🌙';
-    applyColour(currentHue,t==='dark');
+    applyColour(currentHue,currentLightness,t==='dark');
   }
   function toggleTheme(){
     const next=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
@@ -447,57 +451,82 @@
     document.getElementById('cwOverlay').classList.remove('open');
   }
 
+  // Pixel-accurate HSL→RGB for canvas imageData
+  function hslToRgb(h,s,l){
+    s/=100;l/=100;
+    const k=n=>(n+h/30)%12,a=s*Math.min(l,1-l);
+    const f=n=>l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1)));
+    return[Math.round(f(0)*255),Math.round(f(8)*255),Math.round(f(4)*255)];
+  }
+  const CW_L_MIN=15,CW_L_MAX=85;
+  let _cwDragging=false;
+
   function drawColorWheel(){
     const canvas=document.getElementById('cwCanvas');
     const ctx=canvas.getContext('2d');
-    const size=canvas.width,cx=size/2,cy=size/2;
-    const outerR=size/2-3,innerR=outerR*0.30;
-    ctx.clearRect(0,0,size,size);
-    for(let i=0;i<360;i++){
-      const a0=(i-0.6)*Math.PI/180,a1=(i+0.6)*Math.PI/180;
-      ctx.beginPath();ctx.moveTo(cx,cy);
-      ctx.arc(cx,cy,outerR,a0,a1);ctx.closePath();
-      ctx.fillStyle=`hsl(${i},80%,55%)`;ctx.fill();
+    const size=canvas.width,cx=size/2,cy=size/2,outerR=size/2-3;
+    const img=ctx.createImageData(size,size);
+    for(let py=0;py<size;py++){
+      for(let px=0;px<size;px++){
+        const dx=px-cx,dy=py-cy,dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist>outerR) continue;
+        const angle=(Math.atan2(dy,dx)*180/Math.PI+360)%360;
+        const light=CW_L_MIN+(dist/outerR)*(CW_L_MAX-CW_L_MIN);
+        const [r,g,b]=hslToRgb(angle,80,light);
+        const i=(py*size+px)*4;
+        img.data[i]=r;img.data[i+1]=g;img.data[i+2]=b;img.data[i+3]=255;
+      }
     }
-    // Punch transparent centre
-    ctx.globalCompositeOperation='destination-out';
-    ctx.beginPath();ctx.arc(cx,cy,innerR,0,Math.PI*2);
-    ctx.fillStyle='rgba(0,0,0,1)';ctx.fill();
-    ctx.globalCompositeOperation='source-over';
-    // Selection indicator dot
+    ctx.putImageData(img,0,0);
+    // Indicator dot
     const selRad=currentHue*Math.PI/180;
-    const midR=(outerR+innerR)/2;
-    const ix=cx+midR*Math.cos(selRad),iy=cy+midR*Math.sin(selRad);
+    const selR=((currentLightness-CW_L_MIN)/(CW_L_MAX-CW_L_MIN))*outerR;
+    const ix=cx+selR*Math.cos(selRad),iy=cy+selR*Math.sin(selRad);
     ctx.beginPath();ctx.arc(ix,iy,10,0,Math.PI*2);
-    ctx.fillStyle='#fff';ctx.fill();
-    ctx.strokeStyle='rgba(0,0,0,0.35)';ctx.lineWidth=2.5;ctx.stroke();
-    // Swatch preview
-    document.getElementById('cwSwatch').style.background=`hsl(${currentHue},80%,55%)`;
+    ctx.fillStyle='rgba(255,255,255,0.9)';ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,0.45)';ctx.lineWidth=2.5;ctx.stroke();
+    document.getElementById('cwSwatch').style.background=
+      `hsl(${currentHue},80%,${currentLightness}%)`;
   }
 
-  function onWheelClick(e){
+  function _cwPickAt(clientX,clientY){
     const canvas=document.getElementById('cwCanvas');
     const rect=canvas.getBoundingClientRect();
     const scaleX=canvas.width/rect.width,scaleY=canvas.height/rect.height;
-    const cx=canvas.width/2,cy=canvas.height/2;
-    const x=(e.clientX-rect.left)*scaleX-cx,y=(e.clientY-rect.top)*scaleY-cy;
+    const cx=canvas.width/2,cy=canvas.height/2,outerR=canvas.width/2-3;
+    const x=(clientX-rect.left)*scaleX-cx,y=(clientY-rect.top)*scaleY-cy;
     const dist=Math.sqrt(x*x+y*y);
-    const outerR=canvas.width/2-3,innerR=outerR*0.30;
-    if(dist<innerR||dist>outerR) return;
+    if(dist>outerR) return;
     let angle=Math.atan2(y,x)*180/Math.PI;
     if(angle<0) angle+=360;
     currentHue=Math.round(angle)%360;
+    currentLightness=Math.round(CW_L_MIN+(dist/outerR)*(CW_L_MAX-CW_L_MIN));
     const dark=document.documentElement.getAttribute('data-theme')==='dark';
-    applyColour(currentHue,dark);
-    try{localStorage.setItem(HUE_KEY,currentHue);}catch(e){}
+    applyColour(currentHue,currentLightness,dark);
+    try{localStorage.setItem(HUE_KEY,currentHue);
+        localStorage.setItem(LIGHTNESS_KEY,currentLightness);}catch(e){}
+    drawColorWheel();
+  }
+  function _cwPointerDown(e){_cwDragging=true;e.target.setPointerCapture(e.pointerId);_cwPickAt(e.clientX,e.clientY);}
+  function _cwPointerMove(e){if(_cwDragging)_cwPickAt(e.clientX,e.clientY);}
+  function _cwPointerUp(){_cwDragging=false;}
+  function _initCwListeners(){
+    const c=document.getElementById('cwCanvas');
+    c.addEventListener('pointerdown',_cwPointerDown);
+    c.addEventListener('pointermove',_cwPointerMove);
+    c.addEventListener('pointerup',_cwPointerUp);
+    c.addEventListener('pointercancel',_cwPointerUp);
+  }catch(e){}
     drawColorWheel();
   }
   function loadTheme(){
     let t=null,h=null;
-    try{t=localStorage.getItem(THEME_KEY);h=localStorage.getItem(HUE_KEY);}catch(e){}
+    let li=null;
+    try{t=localStorage.getItem(THEME_KEY);h=localStorage.getItem(HUE_KEY);li=localStorage.getItem(LIGHTNESS_KEY);}catch(e){}
     if(!t){try{const m=document.cookie.match('(?:^|;)\s*'+THEME_KEY+'=([^;]+)');if(m)t=m[1];}catch(e){}}
     if(!t) t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
     if(h) currentHue=parseInt(h);
+    if(li) currentLightness=parseInt(li);
     applyTheme(t);
   }
 
@@ -914,6 +943,7 @@
   document.getElementById('newDayOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeNewDay();});
 
   // ══ BOOT ═══════════════════════════════════════════════════
+  _initCwListeners();
   loadTheme();
   const _hadSession=loadState();
   if(!_hadSession){const _ls=getLastStart();if(_ls!=='08:00')document.getElementById('startTime').value=_ls;}

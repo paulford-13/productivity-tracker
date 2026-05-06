@@ -30,11 +30,17 @@
     .header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:10px;}
     .theme-toggle{background:var(--tgl-bg);border:1px solid var(--tgl-bdr);color:var(--tgl-col);border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;}
     .theme-toggle:hover{opacity:.8;transform:scale(1.08);}
-    .hue-wrap{display:flex;align-items:center;flex-shrink:0;}
-    .hue-track{width:80px;height:14px;border-radius:7px;background:linear-gradient(to right,hsl(0,80%,55%),hsl(30,80%,55%),hsl(60,80%,55%),hsl(90,80%,55%),hsl(120,80%,55%),hsl(150,80%,55%),hsl(180,80%,55%),hsl(210,80%,55%),hsl(240,80%,55%),hsl(270,80%,55%),hsl(300,80%,55%),hsl(330,80%,55%),hsl(360,80%,55%));padding:0;position:relative;}
-    .hue-slider{-webkit-appearance:none;appearance:none;width:100%;height:100%;background:transparent;cursor:pointer;border-radius:7px;outline:none;margin:0;}
-    .hue-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid rgba(0,0,0,.25);box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer;}
-    .hue-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid rgba(0,0,0,.25);box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer;}
+    /* ── Colour-wheel button ── */
+    .cw-btn{width:34px;height:34px;border-radius:50%;border:2px solid rgba(128,128,128,.25);padding:0;cursor:pointer;flex-shrink:0;transition:transform .22s,box-shadow .22s;
+      background:conic-gradient(hsl(0,80%,55%),hsl(30,80%,55%),hsl(60,80%,55%),hsl(90,80%,55%),hsl(120,80%,55%),hsl(150,80%,55%),hsl(180,80%,55%),hsl(210,80%,55%),hsl(240,80%,55%),hsl(270,80%,55%),hsl(300,80%,55%),hsl(330,80%,55%),hsl(0,80%,55%));}
+    .cw-btn:hover{transform:scale(1.12) rotate(20deg);box-shadow:0 0 10px rgba(255,255,255,.15);}
+    /* ── Colour-wheel popup ── */
+    .cw-overlay{display:none;position:fixed;inset:0;z-index:2000;}
+    .cw-overlay.open{display:flex;align-items:center;justify-content:center;}
+    .cw-popup{background:var(--dlg-bg);border:1px solid var(--dlg-bdr);border-radius:22px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.45);animation:pop-in .2s ease;display:flex;flex-direction:column;align-items:center;gap:14px;}
+    .cw-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+    .cw-canvas{display:block;cursor:crosshair;border-radius:50%;}
+    .cw-swatch{width:48px;height:48px;border-radius:50%;border:3px solid var(--card-bdr);transition:background .15s;}
 
     /* ── Start time ── */
     .start-time-section{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px;background:var(--panel-bg);border:1px solid var(--panel-bdr);border-radius:16px;padding:14px 18px;transition:background .35s,border-color .35s;}
@@ -198,9 +204,7 @@
       <span id="themeIcon">☀️</span>
     </button>
     <div class="app-title">Productivity Tracker</div>
-    <div class="hue-wrap" title="Colour theme">
-      <div class="hue-track"><input type="range" class="hue-slider" id="hueSlider" min="0" max="359" value="30" oninput="onHueInput(this.value)"/></div>
-    </div>
+    <button class="cw-btn" id="cwBtn" onclick="openColorWheel()" title="Colour theme"></button>
   </div>
 
   <div class="storage-bar" id="storageBar">
@@ -339,6 +343,13 @@
     </div>
   </div>
 </div>
+<div class="cw-overlay" id="cwOverlay" onclick="closeColorWheel()">
+  <div class="cw-popup" onclick="event.stopPropagation()">
+    <div class="cw-title">Colour Theme</div>
+    <canvas class="cw-canvas" id="cwCanvas" width="240" height="240" onclick="onWheelClick(event)"></canvas>
+    <div class="cw-swatch" id="cwSwatch"></div>
+  </div>
+</div>
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
@@ -427,18 +438,66 @@
     try{localStorage.setItem(THEME_KEY,next);}catch(e){}
     try{const exp=new Date(Date.now()+COOKIE_DAYS*864e5).toUTCString();document.cookie=THEME_KEY+'='+next+'; expires='+exp+'; path=/; SameSite=Lax';}catch(e){}
   }
-  function onHueInput(v){
-    currentHue=parseInt(v);
+  // ══ COLOUR WHEEL ═══════════════════════════════════════════
+  function openColorWheel(){
+    document.getElementById('cwOverlay').classList.add('open');
+    drawColorWheel();
+  }
+  function closeColorWheel(){
+    document.getElementById('cwOverlay').classList.remove('open');
+  }
+
+  function drawColorWheel(){
+    const canvas=document.getElementById('cwCanvas');
+    const ctx=canvas.getContext('2d');
+    const size=canvas.width,cx=size/2,cy=size/2;
+    const outerR=size/2-3,innerR=outerR*0.30;
+    ctx.clearRect(0,0,size,size);
+    for(let i=0;i<360;i++){
+      const a0=(i-0.6)*Math.PI/180,a1=(i+0.6)*Math.PI/180;
+      ctx.beginPath();ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,outerR,a0,a1);ctx.closePath();
+      ctx.fillStyle=`hsl(${i},80%,55%)`;ctx.fill();
+    }
+    // Punch transparent centre
+    ctx.globalCompositeOperation='destination-out';
+    ctx.beginPath();ctx.arc(cx,cy,innerR,0,Math.PI*2);
+    ctx.fillStyle='rgba(0,0,0,1)';ctx.fill();
+    ctx.globalCompositeOperation='source-over';
+    // Selection indicator dot
+    const selRad=currentHue*Math.PI/180;
+    const midR=(outerR+innerR)/2;
+    const ix=cx+midR*Math.cos(selRad),iy=cy+midR*Math.sin(selRad);
+    ctx.beginPath();ctx.arc(ix,iy,10,0,Math.PI*2);
+    ctx.fillStyle='#fff';ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,0.35)';ctx.lineWidth=2.5;ctx.stroke();
+    // Swatch preview
+    document.getElementById('cwSwatch').style.background=`hsl(${currentHue},80%,55%)`;
+  }
+
+  function onWheelClick(e){
+    const canvas=document.getElementById('cwCanvas');
+    const rect=canvas.getBoundingClientRect();
+    const scaleX=canvas.width/rect.width,scaleY=canvas.height/rect.height;
+    const cx=canvas.width/2,cy=canvas.height/2;
+    const x=(e.clientX-rect.left)*scaleX-cx,y=(e.clientY-rect.top)*scaleY-cy;
+    const dist=Math.sqrt(x*x+y*y);
+    const outerR=canvas.width/2-3,innerR=outerR*0.30;
+    if(dist<innerR||dist>outerR) return;
+    let angle=Math.atan2(y,x)*180/Math.PI;
+    if(angle<0) angle+=360;
+    currentHue=Math.round(angle)%360;
     const dark=document.documentElement.getAttribute('data-theme')==='dark';
     applyColour(currentHue,dark);
-    try{localStorage.setItem(HUE_KEY,v);}catch(e){}
+    try{localStorage.setItem(HUE_KEY,currentHue);}catch(e){}
+    drawColorWheel();
   }
   function loadTheme(){
     let t=null,h=null;
     try{t=localStorage.getItem(THEME_KEY);h=localStorage.getItem(HUE_KEY);}catch(e){}
     if(!t){try{const m=document.cookie.match('(?:^|;)\s*'+THEME_KEY+'=([^;]+)');if(m)t=m[1];}catch(e){}}
     if(!t) t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
-    if(h){currentHue=parseInt(h);document.getElementById('hueSlider').value=h;}
+    if(h) currentHue=parseInt(h);
     applyTheme(t);
   }
 

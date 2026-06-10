@@ -197,6 +197,26 @@
     .break-banner-msg{font-size:14px;font-weight:700;color:rgba(255,200,80,0.95);letter-spacing:0.5px;}
     .break-banner-sub{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.3px;}
     .break-banner-ends{font-size:11px;color:rgba(255,200,80,0.6);margin-top:3px;font-variant-numeric:tabular-nums;}
+    /* ── Productivity Percentage ── */
+    .prod-pct-section{background:var(--panel-bg);border:1px solid var(--panel-bdr);border-radius:16px;padding:18px 22px;margin-bottom:20px;transition:background .35s,border-color .35s;}
+    .prod-pct-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;text-align:center;}
+    .prod-pct-row{display:flex;gap:14px;align-items:center;}
+    .prod-pct-input{flex:1;background:var(--inp-bg);border:1px solid var(--inp-bdr);border-radius:12px;color:var(--inp-col);font-size:16px;font-weight:700;padding:14px 16px;outline:none;text-align:center;transition:all .2s;}
+    .prod-pct-input::placeholder{color:var(--faint);font-weight:400;font-size:13px;}
+    .prod-pct-input:focus{border-color:var(--orange);}
+    .prod-pct-result{flex:1;background:var(--log-bg);border:1px solid var(--log-bdr);border-radius:12px;padding:12px;text-align:center;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .3s;}
+    .prod-pct-result.good{border-color:rgba(100,210,160,.4);background:rgba(100,210,160,.08);}
+    .prod-pct-result.great{border-color:rgba(100,210,160,.6);background:rgba(100,210,160,.12);}
+    .prod-pct-result.low{border-color:rgba(255,180,80,.4);background:rgba(255,180,80,.08);}
+    .prod-pct-result.verylow{border-color:rgba(240,80,80,.4);background:rgba(240,80,80,.08);}
+    .prod-pct-value{font-size:32px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;line-height:1;transition:color .3s;}
+    .prod-pct-result.good .prod-pct-value{color:rgba(100,210,160,.95);}
+    .prod-pct-result.great .prod-pct-value{color:rgba(100,210,160,1);}
+    .prod-pct-result.low .prod-pct-value{color:rgba(255,180,80,.95);}
+    .prod-pct-result.verylow .prod-pct-value{color:rgba(240,80,80,.95);}
+    .prod-pct-sublabel{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint);margin-top:4px;}
+    .prod-pct-hint{font-size:11px;color:var(--muted);margin-top:10px;text-align:center;letter-spacing:.3px;min-height:16px;}
+
   </style>
 </head>
 <body>
@@ -248,6 +268,19 @@
   <div class="counter-label">Expected Productive Minutes</div>
   <div class="counter" id="counter">--:--</div>
   <div class="counter-sub" id="counter-sub">Set your start time above</div>
+
+  <!-- Productivity Percentage -->
+  <div class="prod-pct-section" id="prodPctSection">
+    <div class="prod-pct-label">Actual Productivity</div>
+    <div class="prod-pct-row">
+      <input class="prod-pct-input" id="prodMinInput" type="number" min="0" max="9999" placeholder="Productive mins..."/>
+      <div class="prod-pct-result" id="prodPctResult">
+        <div class="prod-pct-value" id="prodPctValue">--</div>
+        <div class="prod-pct-sublabel">Productivity</div>
+      </div>
+    </div>
+    <div class="prod-pct-hint" id="prodPctHint">Enter your logged productive minutes above</div>
+  </div>
 
   <div class="break-banner" id="breakBanner">
     <div class="break-banner-icon" id="breakBannerIcon"></div>
@@ -691,6 +724,8 @@
           sub=document.getElementById('counter-sub'), eel=document.getElementById('stat-elapsed');
 
     checkSchedule();
+    updateProductivity();
+
 
     if(!start){
       cel.textContent='--:--'; sub.textContent='Set your start time above';
@@ -945,6 +980,70 @@
   document.getElementById('shiftOtherInp').addEventListener('keydown',e=>{if(e.key==='Enter')e.target.blur();});
   document.getElementById('startTime').addEventListener('change',()=>{saveLastStart();saveState();tick();});
 
+
+  // ══ PRODUCTIVITY PERCENTAGE ════════════════════════════════
+  function updateProductivity() {
+    const inp = document.getElementById('prodMinInput');
+    const result = document.getElementById('prodPctResult');
+    const valueEl = document.getElementById('prodPctValue');
+    const hint = document.getElementById('prodPctHint');
+    
+    const prodMins = parseInt(inp.value, 10);
+    const start = getStartSec();
+    
+    if(!start) {
+      valueEl.textContent = '--';
+      hint.textContent = 'Set your start time first';
+      result.className = 'prod-pct-result';
+      return;
+    }
+    
+    if(!prodMins || prodMins < 0) {
+      valueEl.textContent = '--';
+      hint.textContent = 'Enter your logged productive minutes above';
+      result.className = 'prod-pct-result';
+      return;
+    }
+    
+    const elapsed = nowSec() - start;
+    if(elapsed <= 0) {
+      valueEl.textContent = '--';
+      hint.textContent = 'Start time is in the future';
+      result.className = 'prod-pct-result';
+      return;
+    }
+    
+    const elapsedMins = elapsed / 60;
+    const percentage = Math.round((prodMins / elapsedMins) * 100);
+    
+    valueEl.textContent = percentage + '%';
+    
+    // Update styling based on percentage
+    result.classList.remove('good', 'great', 'low', 'verylow');
+    if(percentage >= 120) {
+      result.classList.add('great');
+      hint.innerHTML = '🔥 On Fire!';
+    } else if(percentage >= 100) {
+      result.classList.add('good');
+      hint.innerHTML = '✨ Great Work!';
+    } else if(percentage >= 85) {
+      result.classList.add('good');
+      hint.innerHTML = '👍 Doing Good! Keep it up.';
+    } else if(percentage >= 70) {
+      result.classList.add('low');
+      hint.innerHTML = '⚡ Room to improve - you can do this!';
+    } else {
+      result.classList.add('verylow');
+      hint.innerHTML = '💪 Time to focus.';
+    }
+    
+    // Add detailed breakdown
+    const elapsedHrs = Math.floor(elapsedMins / 60);
+    const elapsedRemMins = Math.round(elapsedMins % 60);
+    const timeStr = elapsedHrs > 0 ? elapsedHrs + 'h ' + elapsedRemMins + 'm' : Math.round(elapsedMins) + 'm';
+    hint.innerHTML += '<br><span style="font-size:10px;opacity:0.7;">' + prodMins + ' productive min ÷ ' + timeStr + ' elapsed = ' + percentage + '%</span>';
+  }
+
   // ══ NEW-DAY CHECK ══════════════════════════════════════════
   function todayStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
   function checkNewDay(){
@@ -967,6 +1066,12 @@
     showToast('🌅 New day — log cleared!');
   }
   document.getElementById('newDayOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeNewDay();});
+
+  // Productivity percentage event listeners
+  document.getElementById('prodMinInput').addEventListener('input', updateProductivity);
+  document.getElementById('prodMinInput').addEventListener('keydown', e => {
+    if(e.key === 'Enter') e.target.blur();
+  });
 
   // ══ BOOT ═══════════════════════════════════════════════════
   _initCwListeners();

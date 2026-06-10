@@ -1013,8 +1013,20 @@
       return;
     }
     
-    const elapsedMins = elapsed / 60;
-    const percentage = Math.round((prodMins / elapsedMins) * 100);
+    // Calculate expected productive time (elapsed minus deductions and active breaks)
+    const deducted = totalDed();
+    const activeEv = getActiveScheduledEvent();
+    const activeEvSec = activeEv ? Math.max(0, nowSec() - timeStrToSec(activeEv.startTime)) : 0;
+    
+    let expectedProdSec = elapsed - deducted - activeEvSec;
+    
+    // If shift is set, cap at shift duration
+    if(shiftMins !== null) {
+      expectedProdSec = Math.min(expectedProdSec, shiftMins * 60 - deducted - activeEvSec);
+    }
+    
+    const expectedProdMins = Math.max(1, expectedProdSec / 60); // Avoid division by zero
+    const percentage = Math.round((prodMins / expectedProdMins) * 100);
     
     valueEl.textContent = percentage + '%';
     
@@ -1036,12 +1048,13 @@
       result.classList.add('verylow');
       hint.innerHTML = '💪 Time to focus.';
     }
+
     
     // Add detailed breakdown
-    const elapsedHrs = Math.floor(elapsedMins / 60);
-    const elapsedRemMins = Math.round(elapsedMins % 60);
-    const timeStr = elapsedHrs > 0 ? elapsedHrs + 'h ' + elapsedRemMins + 'm' : Math.round(elapsedMins) + 'm';
-    hint.innerHTML += '<br><span style="font-size:10px;opacity:0.7;">' + prodMins + ' productive min ÷ ' + timeStr + ' elapsed = ' + percentage + '%</span>';
+    const expectedHrs = Math.floor(expectedProdMins / 60);
+    const expectedRemMins = Math.round(expectedProdMins % 60);
+    const timeStr = expectedHrs > 0 ? expectedHrs + 'h ' + expectedRemMins + 'm' : Math.round(expectedProdMins) + 'm';
+    hint.innerHTML += '<br><span style="font-size:10px;opacity:0.7;">' + prodMins + ' productive min ÷ ' + timeStr + ' expected = ' + percentage + '%</span>';
   }
 
   // ══ NEW-DAY CHECK ══════════════════════════════════════════

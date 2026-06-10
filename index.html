@@ -602,7 +602,7 @@
     document.getElementById('storageMsg').textContent=msg;
   }
   function saveState() {
-    const payload=JSON.stringify({startTime:document.getElementById('startTime').value,events,nextId,shiftMins,scheduledItems,schedNextId,ts:Date.now()});
+    const payload=JSON.stringify({startTime:document.getElementById('startTime').value,events,nextId,shiftMins,scheduledItems,schedNextId,prodMinInput:document.getElementById('prodMinInput').value,ts:Date.now()});
     saveLastStart();
     const ls=lsSet(CURRENT_KEY,payload), ck=ckSet(CURRENT_KEY,payload);
     if(ls||ck){const via=ls&&ck?'localStorage + cookie':ls?'localStorage':'cookie';setBar('saved','✓ Saved · '+events.length+' event'+(events.length!==1?'s':'')+' · '+via);}
@@ -628,6 +628,7 @@
         if(s.shiftMins) shiftMins=s.shiftMins;
         if(Array.isArray(s.scheduledItems)) scheduledItems=s.scheduledItems;
         if(s.schedNextId) schedNextId=s.schedNextId;
+        if(s.prodMinInput) document.getElementById('prodMinInput').value=s.prodMinInput;
         const ago=s.ts?' · saved '+timeSince(s.ts):'';
         const src=key!==CURRENT_KEY?' (migrated from '+key+')':'';
         setBar('restored','↩ Session restored'+ago+src);
@@ -1048,7 +1049,6 @@
       result.classList.add('verylow');
       hint.innerHTML = '💪 Time to focus.';
     }
-
     
     // Add detailed breakdown
     const expectedHrs = Math.floor(expectedProdMins / 60);
@@ -1081,7 +1081,10 @@
   document.getElementById('newDayOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeNewDay();});
 
   // Productivity percentage event listeners
-  document.getElementById('prodMinInput').addEventListener('input', updateProductivity);
+  document.getElementById('prodMinInput').addEventListener('input', () => {
+    updateProductivity();
+    saveState();
+  });
   document.getElementById('prodMinInput').addEventListener('keydown', e => {
     if(e.key === 'Enter') e.target.blur();
   });
@@ -1097,6 +1100,7 @@
   renderSchedule();
   updateStats();
   requestNotifPermission();
+  updateProductivity();
   tick();
   setInterval(tick, 1000);
 </script>
